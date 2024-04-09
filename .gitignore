@@ -1,0 +1,11 @@
+venv/
+.venv/
+.vscode/
+__pycache__/
+.dbeaver/
+dbeaver/
+__pycache__
+.project
+data/
+*.csv
+*.db
