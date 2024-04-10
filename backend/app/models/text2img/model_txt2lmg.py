@@ -2,7 +2,7 @@ import torch.nn.functional as F
 import ruclip
 import torch
 
-model, processor = ruclip.load('ruclip-vit-base-patch32-384', device="cpu")
+model, processor = ruclip.load("ruclip-vit-base-patch32-384", device="cpu")
 
 
 def get_request_embedding(request):

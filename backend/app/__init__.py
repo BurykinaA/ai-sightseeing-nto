@@ -1,16 +1,17 @@
 from flask import Flask, request, make_response
-from config import Config, DevelopmentConfig
+from config import DevelopmentConfig
 from app.object import object
+from app.ml import ml
 
 
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
 
 def create_app(config_class=DevelopmentConfig):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config_class)
 
-    blueprints = [object]  # products, categories, correct
+    blueprints = [object, ml]
     for blueprint in blueprints:
         app.register_blueprint(blueprint)
 

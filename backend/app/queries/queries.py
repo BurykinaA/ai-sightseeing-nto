@@ -1,5 +1,6 @@
 from app.connection.sqllite3_connection import Sqlite3Connection
 
+
 def get_name_info(name):
     query = f"""
             SELECT 

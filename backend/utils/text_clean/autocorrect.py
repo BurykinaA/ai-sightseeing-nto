@@ -7,7 +7,65 @@ import pickle
 from nltk.metrics.distance import edit_distance
 from app.utils.nlp import cleaning
 
-text = [{'product_name': 'Ноутбук Lenovo ThinkPad X270 [X270 20HN0012RT]'}, {'product_name': 'Материнская плата MSI B250M BAZOOKA PLUS'}, {'product_name': 'Электрочайник Oursson \t EK1763M'}, {'product_name': 'Фен Sinbo SHD-7034'}, {'product_name': 'Ноутбук HP 250 G6 [250G6 1WY51EA]'}, {'product_name': 'Ноутбук HP 15-bs000 [15-BS019UR 1ZJ85EA]'}, {'product_name': 'Видеокарта Gigabyte GeForce GTX 1050 GV-N1050WF2OC-2GD'}, {'product_name': 'Массажер для тела GEZAtone AMG114'}, {'product_name': 'Ноутбук Dell Inspiron 15 5570 [5570-0054]'}, {'product_name': 'Ноутбук Dell Latitude 3480 [3480-6126]'}, {'product_name': 'Монитор Acer G237HLAwi'}, {'product_name': 'Электродуховка Artel MD 4212 E'}, {'product_name': 'Электрическая зубная щетка CS Medica Sonic Pulsar CS-131'}, {'product_name': 'Материнская плата MSI H81M-E33'}, {'product_name': 'Ноутбук MSI GS70 6QE Stealth Pro [GS70 6QE-265]'}, {'product_name': 'Швейная машина, оверлок Singer 14SH754'}, {'product_name': 'Пылесос Samsung SC-432A'}, {'product_name': 'Микроволновая печь Candy CMXW 22 DS'}, {'product_name': 'Ноутбук HP 15-bw000 [15-BW071UR 2CN98EA]'}, {'product_name': 'Антенна для Wi-Fi и 3G Ubiquiti AirMax Sector M-V5G-Ti'}, {'product_name': 'Швейная машина, оверлок BERNINA B580'}, {'product_name': 'Пылесос Agressor AGR 140'}, {'product_name': 'Весы Kromax KS-519'}, {'product_name': 'Кофемолка Saturn ST-CM1033'}, {'product_name': 'Весы Tanita HD-394'}, {'product_name': 'Сумка для ноутбуков Sumdex Impulse Fashion Place Portfolio Brief [Impulse Fashion Place Portfolio Brief 15.4]'}, {'product_name': 'Антенна для Wi-Fi и 3G Antex PETRA Broad Band 75'}, {'product_name': 'Фен Redmond RF-524'}, {'product_name': 'Оперативная память Transcend DDR2 [JM800QLU-2G]'}, {'product_name': 'Фен Beurer HS80'}, {'product_name': 'Фен Gamma Piu Rainbow'}, {'product_name': 'Машинка для стрижки волос Moser 1245-0066'}, {'product_name': 'Жесткий диск WD RE [WD2004FBYZ]'}, {'product_name': 'Монитор Sharp PN-80SC5'}, {'product_name': 'Микроволновая печь LG MS-23M38GIH'}, {'product_name': 'Ноутбук MSI GP72M 7RDX Leopard [GP72M 7RDX-1239]'}, {'product_name': 'Блок питания Thermaltake Toughpower DPS [TPG-0850D]'}, {'product_name': 'Коммутатор Dell X4012'}, {'product_name': 'Оперативная память Corsair Vengeance RGB DDR4 [CMR32GX4M4A2666C16]'}, {'product_name': 'Фен Moser 4445-0050'}, {'product_name': 'Блинница Kromax CM-24'}, {'product_name': 'Коммутатор Cisco WS-C2960X-48TD-L'}, {'product_name': 'Электрочайник Tefal KI 760'}, {'product_name': 'Весы Scarlett SC-KS57P20'}, {'product_name': 'Система охлаждения Thermaltake CLW0222'}, {'product_name': "Кофемолка De'Longhi KG 49"}, {'product_name': 'Коммутатор HP JG221A'}, {'product_name': 'Ноутбук Lenovo Ideapad 710S 13 [710S-13ISK 80SW0063RK]'}, {'product_name': 'Швейная машина, оверлок Toyota ART 20'}, {'product_name': 'Сумка для ноутбуков Sumdex Passage Computer Brief PON-328 [Passage Computer Brief PON-328 15.6]'}]
+text = [
+    {"product_name": "Ноутбук Lenovo ThinkPad X270 [X270 20HN0012RT]"},
+    {"product_name": "Материнская плата MSI B250M BAZOOKA PLUS"},
+    {"product_name": "Электрочайник Oursson \t EK1763M"},
+    {"product_name": "Фен Sinbo SHD-7034"},
+    {"product_name": "Ноутбук HP 250 G6 [250G6 1WY51EA]"},
+    {"product_name": "Ноутбук HP 15-bs000 [15-BS019UR 1ZJ85EA]"},
+    {"product_name": "Видеокарта Gigabyte GeForce GTX 1050 GV-N1050WF2OC-2GD"},
+    {"product_name": "Массажер для тела GEZAtone AMG114"},
+    {"product_name": "Ноутбук Dell Inspiron 15 5570 [5570-0054]"},
+    {"product_name": "Ноутбук Dell Latitude 3480 [3480-6126]"},
+    {"product_name": "Монитор Acer G237HLAwi"},
+    {"product_name": "Электродуховка Artel MD 4212 E"},
+    {"product_name": "Электрическая зубная щетка CS Medica Sonic Pulsar CS-131"},
+    {"product_name": "Материнская плата MSI H81M-E33"},
+    {"product_name": "Ноутбук MSI GS70 6QE Stealth Pro [GS70 6QE-265]"},
+    {"product_name": "Швейная машина, оверлок Singer 14SH754"},
+    {"product_name": "Пылесос Samsung SC-432A"},
+    {"product_name": "Микроволновая печь Candy CMXW 22 DS"},
+    {"product_name": "Ноутбук HP 15-bw000 [15-BW071UR 2CN98EA]"},
+    {"product_name": "Антенна для Wi-Fi и 3G Ubiquiti AirMax Sector M-V5G-Ti"},
+    {"product_name": "Швейная машина, оверлок BERNINA B580"},
+    {"product_name": "Пылесос Agressor AGR 140"},
+    {"product_name": "Весы Kromax KS-519"},
+    {"product_name": "Кофемолка Saturn ST-CM1033"},
+    {"product_name": "Весы Tanita HD-394"},
+    {
+        "product_name": "Сумка для ноутбуков Sumdex Impulse Fashion Place Portfolio Brief [Impulse Fashion Place Portfolio Brief 15.4]"
+    },
+    {"product_name": "Антенна для Wi-Fi и 3G Antex PETRA Broad Band 75"},
+    {"product_name": "Фен Redmond RF-524"},
+    {"product_name": "Оперативная память Transcend DDR2 [JM800QLU-2G]"},
+    {"product_name": "Фен Beurer HS80"},
+    {"product_name": "Фен Gamma Piu Rainbow"},
+    {"product_name": "Машинка для стрижки волос Moser 1245-0066"},
+    {"product_name": "Жесткий диск WD RE [WD2004FBYZ]"},
+    {"product_name": "Монитор Sharp PN-80SC5"},
+    {"product_name": "Микроволновая печь LG MS-23M38GIH"},
+    {"product_name": "Ноутбук MSI GP72M 7RDX Leopard [GP72M 7RDX-1239]"},
+    {"product_name": "Блок питания Thermaltake Toughpower DPS [TPG-0850D]"},
+    {"product_name": "Коммутатор Dell X4012"},
+    {
+        "product_name": "Оперативная память Corsair Vengeance RGB DDR4 [CMR32GX4M4A2666C16]"
+    },
+    {"product_name": "Фен Moser 4445-0050"},
+    {"product_name": "Блинница Kromax CM-24"},
+    {"product_name": "Коммутатор Cisco WS-C2960X-48TD-L"},
+    {"product_name": "Электрочайник Tefal KI 760"},
+    {"product_name": "Весы Scarlett SC-KS57P20"},
+    {"product_name": "Система охлаждения Thermaltake CLW0222"},
+    {"product_name": "Кофемолка De'Longhi KG 49"},
+    {"product_name": "Коммутатор HP JG221A"},
+    {"product_name": "Ноутбук Lenovo Ideapad 710S 13 [710S-13ISK 80SW0063RK]"},
+    {"product_name": "Швейная машина, оверлок Toyota ART 20"},
+    {
+        "product_name": "Сумка для ноутбуков Sumdex Passage Computer Brief PON-328 [Passage Computer Brief PON-328 15.6]"
+    },
+]
+
 
 class LayoutCorrector:
     def __init__(self):
@@ -18,7 +76,7 @@ class LayoutCorrector:
 
     def en2ru(self, string) -> str:
         return "".join([self.en2ru_dict[a] for a in string.lower()])
-    
+
     def ru2en(self, string) -> str:
         return "".join([self.ru2en_dict[a] for a in string.lower()])
 
@@ -34,12 +92,14 @@ class LayoutCorrector:
 
 class AutoCorrector:
     def __init__(
-        self, 
-        path2words = None,
-        path2csv : str = None, 
-        trainColumnName = "Название СТЕ", 
+        self,
+        path2words=None,
+        path2csv: str = None,
+        trainColumnName="Название СТЕ",
     ) -> None:
-        self.special_symbols = s.ascii_uppercase + "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ1234567890-"
+        self.special_symbols = (
+            s.ascii_uppercase + "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ1234567890-"
+        )
         self.symbols = self.getValidSymbols()
         self.trainColumnName = trainColumnName
         self.words = self.getWords(path2csv)
@@ -47,31 +107,28 @@ class AutoCorrector:
         self.corrector = LayoutCorrector()
         self.words_list = self.get_list()
 
-
     def get_list(self):
         tmp = []
         for line in text:
-            tmp += line['product_name'].split()
+            tmp += line["product_name"].split()
 
         return tmp
 
     def load_words(self, path2words):
-        return pickle.load(open(path2words, 'rb'))
+        return pickle.load(open(path2words, "rb"))
 
     def save_words(self, path2words):
-        picklefile = open(path2words, 'wb')
-    
-        #pickle the dictionary and write it to file
+        picklefile = open(path2words, "wb")
+
+        # pickle the dictionary and write it to file
         pickle.dump(completer.words, picklefile)
-        #close the file
+        # close the file
         picklefile.close()
 
     def getValidSymbols(self):
         return s.ascii_lowercase + "абвгдеёжзийклмнопрстуфхцчшщъыьэюя" + "1234567890"
 
-    def isSerial(self,
-                 input_string: str,
-                 threshold=0.5) -> bool:
+    def isSerial(self, input_string: str, threshold=0.5) -> bool:
         counter = 0
         for x in input_string:
             if x in self.special_symbols:
@@ -79,54 +136,49 @@ class AutoCorrector:
 
         return counter / len(input_string) > threshold
 
-
-    def getWords(self, path : str) -> Dict[str, dict]:
+    def getWords(self, path: str) -> Dict[str, dict]:
         words = {}
 
         for line in text:
-            processed_string = line['product_name']
+            processed_string = line["product_name"]
             local_words = processed_string.split(" ")
             for index in range(len(local_words)):
                 first = local_words[index]
-                if first: 
+                if first:
                     words[first.strip()] = {}
 
         return words
-    
+
     def toLatin(self, string) -> str:
-        return cyrtranslit.to_latin(string, 'ru')
-    
+        return cyrtranslit.to_latin(string, "ru")
+
     def toRussian(self, string) -> str:
-        return cyrtranslit.to_cyrillic(string, 'ru')
+        return cyrtranslit.to_cyrillic(string, "ru")
 
     def getAutoComplete(self, words, symbols):
-        return AutoComplete(
-            words=words,
-            valid_chars_for_string= symbols
-            )
-    
-    def request(self, query, size = 1, max_cost = 2):
+        return AutoComplete(words=words, valid_chars_for_string=symbols)
+
+    def request(self, query, size=1, max_cost=2):
         outputs = self.autoComplete.search(
-            word=cleaning(query),
-            size = size, 
-            max_cost = max_cost
-            )
+            word=cleaning(query), size=size, max_cost=max_cost
+        )
         return [item[0] + " " for item in outputs]
-    
 
     def correct_typo(self, word):
-        distances = {dictionary_word: edit_distance(word, dictionary_word) for dictionary_word in self.words_list}
+        distances = {
+            dictionary_word: edit_distance(word, dictionary_word)
+            for dictionary_word in self.words_list
+        }
         corrected_word = min(distances, key=distances.get)
         if distances[corrected_word] > 4:
             return word
         return corrected_word
 
-
     def search(self, query_sentence: str) -> List[str]:
-        query_sentence = ' '.join(query_sentence.split())
+        query_sentence = " ".join(query_sentence.split())
         tmp = query_sentence
         if not query_sentence:
-            return ''
+            return ""
         output_sentence = []
         for query in query_sentence.split(" "):
             if self.isSerial(query):
@@ -172,21 +224,18 @@ class AutoCorrector:
                         # return output
         if output_sentence:
             return "".join(output_sentence)
-        
+
         output_sentence = []
         for query in query_sentence.split(" "):
             output_sentence.append(self.correct_typo(tmp))
 
-
         return "".join(output_sentence)
 
-
-
-    def __call__(self, query : str) -> List[str]:
+    def __call__(self, query: str) -> List[str]:
         return self.search(query)
 
 
 if __name__ == "__main__":
-    corrector = AutoCorrector('')
-  
-    print(corrector('yjen,er'))
+    corrector = AutoCorrector("")
+
+    print(corrector("yjen,er"))
