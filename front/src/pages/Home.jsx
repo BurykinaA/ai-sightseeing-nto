@@ -26,8 +26,8 @@ function Home() {
   const [page, setPage] = useState(1);
   
   const getData=()=>{
-    axios.get(URL+`api/object?_limit=10&_page=${page}`
-    +`${filter.owner.length==0?'':'&owner='+filter.owner.map((item)=>item.id)}${filter.status.length==0?'':'&status='+filter.status.map((item)=>item.id)}${filter.type.length==0?'':'&is_private='+filter.type.map((item)=>item.id)}`
+    axios.get(URL+`api/object?_limit=10&page=${page}`
+    +`${filter.owner.length==0?'':'&city='+filter.owner.map((item)=>item.id)}${filter.status.length==0?'':'&category='+filter.status.map((item)=>item.id)}${filter.type.length==0?'':'&rate='+filter.type.map((item)=>item.id)}`
     , '')
     .then(response=>{
       setPage(prevPage => prevPage + 1);
@@ -85,7 +85,7 @@ function Home() {
 
       <div className='relative w-[400px] min-w-[400px] text-left '>
         <div className='fixed w-max flex flex-col gap-4'>
-          <CustomMap/>
+          <CustomMap data={data}/>
           <Filter filter={filter} setFilter={setFilter} handleFilterChangeNew={handleFilterChangeNew} getData={getData}/>
         
 

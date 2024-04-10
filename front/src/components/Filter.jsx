@@ -10,19 +10,19 @@ function Filter({filter, handleFilterChangeNew, setFilter, getData}) {
     "owner": {
         "values": [
             {
-                "id": 1,
-                "value": "Волгоград"
+                "id": "Владимир",
+                "value": "Владимир"
             },
             {
-                "id": 2,
+                "id": "Ярославль",
                 "value": "Ярославль"
             },
             {
-                "id": 3,
+                "id":  "Нижний Новгород",
                 "value": "Нижний Новгород"
             },
             {
-                "id": 4,
+                "id": "Екатеринбург",
                 "value": "Екатеринбург"
             },
             
