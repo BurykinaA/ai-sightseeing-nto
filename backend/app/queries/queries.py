@@ -44,7 +44,7 @@ def get_filtered_objects_info(city=None, kind=None, rate=None, limit=1, offset=1
         where_clauses.append(f"o.city = '{city}'")
 
     if kind:
-        where_clauses.append(f"k.type = {kind}")
+        where_clauses.append(f"{kind} in k.type")
 
     if rate:
         where_clauses.append(f"o.rate = {rate}")

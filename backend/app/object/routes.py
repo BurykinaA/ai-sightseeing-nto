@@ -35,6 +35,18 @@ type = [
     {"id": 8, "value": "Архитектурные объекты"},
 ]
 
+type_cat = [
+    0: "Музеи и памятники",
+    1: "Религиозные места",
+    2: "Рестораны и еда",
+    3: "Природные объекты",
+    4: "Спорт и развлечения",
+    5: "Финансовые и банковские учреждения",
+    6: "Туристические объекты",
+    7: "Другие места",
+    8: "Архитектурные объекты"
+]
+
 rate = [
     {"id": 0, "value": "3h"},
     {"id": 1, "value": "3"},
@@ -43,14 +55,22 @@ rate = [
     {"id": 4, "value": "2h"},
 ]
 
+rate_cat = {
+    0: "3h",
+    1: "3",
+    2: "2",
+    3: "1",
+    4: "2h"
+}
+
 
 @cross_origin()
 @object.get("/api/object")
 def get_objects():
     try:
         city = request.args.get("city")
-        kind = request.args.get("category")
-        rate = request.args.get("rate")
+        kind = type_cat[request.args.get("category")]
+        rate = rate_cat[request.args.get("rate")]
         page = int(request.args.get("page", 1))
         limit = int(request.args.get("_limit", 10))
 
