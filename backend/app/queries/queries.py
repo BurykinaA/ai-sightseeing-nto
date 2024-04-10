@@ -13,28 +13,18 @@ def get_object_info(db, object_id):
     return db.get(query)
 
 
-def get_filtered_objects_info(db, city=None, kind=None, rate=None,  limit=1, offset=10):
+def get_filtered_objects_info(db, city=None, kind=None, rate=None, limit=1, offset=10):
     where_clauses = []
     
-    # Для безопасности используйте параметризованные запросы вместо форматирования строк
-    params = {}
-    
     if city:
-        city = city.replace("'", "''")  # Лучше использовать параметризованные запросы
-        where_clauses.append("o.city = :city")
-        params["city"] = city
+        where_clauses.append(f"o.city = {city}")
         
-    if rate:
-        kind = kind.replace("'", "''")  # И здесь тоже
-        where_clauses.append("k.type = :kind")
-        params["kind"] = kind
-
     if kind:
-        rate = rate.replace("'", "''")  # И здесь тоже
-        where_clauses.append("o.rate = :rate")
-        params["rate"] = rate
+        where_clauses.append(f"k.type = {kind}")
 
-    # Формируем базовый запрос
+    if rate:
+        where_clauses.append(f"o.rate = {rate}")
+
     query = """
     SELECT o.id, o.name, o.city, o.lon, o.lat, o.rate, o.description, p.base64, k.type
     FROM object o
@@ -44,9 +34,9 @@ def get_filtered_objects_info(db, city=None, kind=None, rate=None,  limit=1, off
     LEFT JOIN kind k ON ok.id_kind = k.id
     """
     
-    # Добавляем условия WHERE, если они есть
     if where_clauses:
         query += " WHERE " + " AND ".join(where_clauses)
 
-    query += f'LIMIT :{limit} OFFSET :{offset}'
+    query += f' LIMIT {limit} OFFSET {offset}'
+
     return db.get(query)

@@ -10,7 +10,6 @@ class Sqlite3Connection:
     conn = None
 
     def __init__(self, path='app/database/sights.db'):
-        print(sys.path)
         self.path = path
 
     def open(self):
