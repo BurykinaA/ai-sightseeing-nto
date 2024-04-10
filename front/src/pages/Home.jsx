@@ -9,6 +9,7 @@ import PhotoSearch from '../components/PhotoSearch';
 import TextSearch from '../components/TextSearch';
 import SelectDD from '../components/SelectDD';
 import Filter from '../components/Filter';
+import { URL } from '../const';
 
 // import AppRouted from './router/AppRouted'
 
@@ -20,23 +21,46 @@ function Home() {
     status: [], // Статус
     
   })
+  const [fetching, setFetching] = useState(false)
   const [data, setData]=useState([])
+  const [page, setPage] = useState(1);
   
   const getData=()=>{
-    axios.get('https://jsonplaceholder.typicode.com/photos?_limit=10'
+    axios.get(URL+`api/object?_limit=10&_page=${page}`
     +`${filter.owner.length==0?'':'&owner='+filter.owner.map((item)=>item.id)}${filter.status.length==0?'':'&status='+filter.status.map((item)=>item.id)}${filter.type.length==0?'':'&is_private='+filter.type.map((item)=>item.id)}`
     , '')
     .then(response=>{
-      setData(response.data)
+      setPage(prevPage => prevPage + 1);
+      setData(prevData => [...prevData, ...response.data]);
       console.log(filter)
+      setFetching(false);
     } ) 
     .catch(function (error) {
       console.log(error);
+      setFetching(false);
     });
   }
   useEffect(()=>{
     getData()
   },[])
+
+  useEffect(() => {
+   fetching&& getData()
+  }, [fetching]);
+
+  const handleScroll = () => {
+    if (!fetching && (window.innerHeight + window.scrollY) >= document.body.scrollHeight - 200) {
+      setFetching(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const handleFilterChangeNew = (data, type) => {
     var dataa ={[type]: data}
     
