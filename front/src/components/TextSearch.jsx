@@ -11,24 +11,9 @@ import { modalTheme } from '../theme';
 function TextSearch({objID, disabled}) {
   
   const [openModal, setOpenModal] = useState(false);
-  const [data, setData]=  useState({
-    subject_id:parseInt(objID, 10),
-    name:'',
-    date:'',
-    comment:'',
-    pictures:[]
-  })
+  const [data, setData]=  useState({text:''})
 
-  const [pictures, setPictures]=  useState([
-    {id: 1, name:'name 1', type:'txt', weight: "0.1"},
-    {id: 2, name:'name 2', type:'xls', weight: "0.2"},
-    {id: 3, name:'name 3', type:'pdf', weight: "0.3"},
-    {id: 4, name:'name 4', type:'txt', weight: "0.4"},
-    ])
-    const deletePicture=(id)=>{
-        setPictures(prevPic => prevPic.filter(item => item.id != id))
-    }
-    useEffect(()=>{console.log(pictures)},[pictures])
+
     
     const handleSubmit=(event)=>{
         event.preventDefault(); // Предотвращаем перезагрузку страницы
@@ -36,7 +21,6 @@ function TextSearch({objID, disabled}) {
         axios.post('api/?', data,'' )
         .then(response=>{
         console.log(response.data)
-        // setContact([...contact, data])
         })
         .catch(function (error) {
         console.log(error);
@@ -62,7 +46,7 @@ function TextSearch({objID, disabled}) {
 
             <div className=''>
                 <p className="font-normal text-[#0B1F33] mb-2" > Описание</p>
-                <input required className=" bg-[#F5F7FA] rounded-lg h-10 w-full outline-0 px-2 py-2.5" placeholder="Описание" value={data.comment} onChange={(e)=>setData({...data, comment:e.target.value})}/>
+                <input required className=" bg-[#F5F7FA] rounded-lg h-10 w-full outline-0 px-2 py-2.5" placeholder="Описание" value={data.text} onChange={(e)=>setData({...data, text:e.target.value})}/>
             </div>
              <div>
              <button 
@@ -88,7 +72,7 @@ function TextSearch({objID, disabled}) {
               className='blueButton'
               placeholder='pup'
             >
-              Добавить
+              Поиск
             </button>
              </div>
             

@@ -51,7 +51,7 @@ function Filter({filter, handleFilterChangeNew, setFilter, getData}) {
   
   return (
     
-    <div className='rounded-xl bg-white shadow-md flex flex-col gap-4 p-4' >
+    <div className='rounded-xl bg-white shadow-md flex flex-col gap-4 p-4 max-h-[670px] overflow-auto' >
     <p className='text-2xl font-semibold flex items-center'>
       {open? 
         <svg onClick={()=>setOpen(!open)} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
