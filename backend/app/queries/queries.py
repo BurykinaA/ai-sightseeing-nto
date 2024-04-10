@@ -64,7 +64,7 @@ def get_filtered_objects_info(city=None, kind=None, rate=None, limit=1, offset=1
             "photo": row[7],
             "name": row[1],
             "description": row[6],
-            "coordinates": [row[3], row[4]],
+            "coordinates": [row[4], row[3]],
             "city": row[2],
             "rate": row[5],
         }
