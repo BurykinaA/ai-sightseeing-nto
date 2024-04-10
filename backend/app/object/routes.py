@@ -63,10 +63,13 @@ rate_cat = {'0': "3h", '1': "3", '2': "2", '3': "1", '4': "2h"}
 def get_objects():
     try:
         city = request.args.get("city")
+
         kind = request.args.get("category")
-        kind = type_cat[kind] if kind is not None else kind
+        kind = [type_cat[i] for i in kind.split(',')] if kind is not None else None
+
         rate = request.args.get("rate")
-        rate = rate_cat[rate] if rate is not None else rate
+        rate = [rate_cat[i] for i in rate.split(',')] if rate is not None else None
+
         page = int(request.args.get("page", 1))
         limit = int(request.args.get("_limit", 10))
 

@@ -11,7 +11,7 @@ def get_object_info(object_id):
                 o.lat, 
                 o.rate, 
                 o.description,
-                o.type,
+                o.kind,
                 (SELECT GROUP_CONCAT(p.base64) FROM photo_obj p WHERE p.id_obj = o.id) as base64
             FROM object o
             WHERE o.id = '{object_id}'
@@ -44,10 +44,12 @@ def get_filtered_objects_info(city=None, kind=None, rate=None, limit=1, offset=1
         where_clauses.append(f"o.city = '{city}'")
 
     if kind:
-        where_clauses.append(f"{kind} in k.type")
+        kind_conditions = " OR ".join([f"'{k}' IN o.kind" for k in kind])
+        where_clauses.append(f"({kind_conditions})")
 
     if rate:
-        where_clauses.append(f"o.rate = {rate}")
+        rate_conditions = " OR ".join([f"o.rate = {r}" for r in rate])
+        where_clauses.append(f"({rate_conditions})")
 
     query = """
         SELECT 
@@ -58,7 +60,7 @@ def get_filtered_objects_info(city=None, kind=None, rate=None, limit=1, offset=1
             o.lat, 
             o.rate, 
             o.description,
-            o.type,
+            o.kind,
             (SELECT p.base64 FROM photo_obj p WHERE p.id_obj = o.id LIMIT 1) as base64
         FROM object o
     """
