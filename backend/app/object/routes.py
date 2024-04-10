@@ -10,21 +10,16 @@ from flask_cors import cross_origin
 # import cv2
 
 from app.queries.queries import get_object_info, get_filtered_objects_info
-from app.connection.sqllite3_connection import Sqlite3Connection
 
-
-db_connection = Sqlite3Connection()
-
-
-@cross_origin()
-@object.get("/api/object/<id>")
-def get_object_by_id(id):
-    try:
-        object_info = get_object_info(db_connection, id)
-        return make_response(object_info, 200)
-    except Exception as e:
-        print(e)
-        return make_response({"error": "Internal Server Error"}, 500)
+# @cross_origin()
+# @object.get("/api/object/<id>")
+# def get_object_by_id(id):
+#     try:
+#         object_info = get_object_info(db_connection, id)
+#         return make_response(object_info, 200)
+#     except Exception as e:
+#         print(e)
+#         return make_response({"error": "Internal Server Error"}, 500)
     
 
 @cross_origin()
@@ -40,7 +35,9 @@ def get_objects():
         offset = (page - 1) * limit
 
         object_info = get_filtered_objects_info(
-            db_connection, city, kind, rate, limit, offset)
+            city, kind, rate, limit, offset)
+        
+        print(object_info)
     
         return make_response(object_info, 200)
     except Exception as e:

@@ -1,6 +1,5 @@
 import sqlite3
 import csv
-import sys
 
 class Sqlite3Connection:
     """
@@ -108,8 +107,8 @@ class Sqlite3Connection:
         self.close()
         return response
 
-    def insert_photo_csv(self, csv_path):
-        table = "photo"
+    def insert_photo_obj_csv(self, csv_path):
+        table = "photo_obj"
         if self.conn is None:
             self.open()
 
@@ -117,39 +116,16 @@ class Sqlite3Connection:
 
         with open(csv_path, mode="r", encoding="utf-8") as file:
             dr = csv.DictReader(file)  # assuming no header
-            to_db = [(i["id"], i["base64"]) for i in dr]
+            to_db = [(i["id_obj"], i["base64"]) for i in dr]
 
         try:
             cur = self.conn.cursor()
-            cur.executemany(f"INSERT INTO {table} (id, base64) VALUES (?, ?);", to_db)
+            cur.executemany(f"INSERT INTO {table} (id_obj, base64) VALUES (?, ?);", to_db)
             self.conn.commit()
             response = "Done - Rows affected: " + str(cur.rowcount)
         except sqlite3.Error as err:
             response = "Error - " + err.args[0]
-
-        self.close()
-        return response
-
-    def insert_obj_photo_csv(self, csv_path):
-        table = "obj_photo"
-        if self.conn is None:
-            self.open()
-
-        csv.field_size_limit(2**30)
-
-        with open(csv_path, mode="r", encoding="utf-8") as file:
-            dr = csv.DictReader(file)  # assuming no header
-            to_db = [(i["id"], i["id_obj"], i["id_photo"]) for i in dr]
-
-        try:
-            cur = self.conn.cursor()
-            cur.executemany(
-                f"INSERT INTO {table} (id, id_obj, id_photo) VALUES (?, ?, ?);", to_db
-            )
-            self.conn.commit()
-            response = "Done - Rows affected: " + str(cur.rowcount)
-        except sqlite3.Error as err:
-            response = "Error - " + err.args[0]
+            print("Error - " + err.args[0])
 
         self.close()
         return response
@@ -198,4 +174,4 @@ def sqlite3_call(database, query):
 #     #db_connection.insert_kind_csv('kind_db.csv')
 #     #db_connection.insert_photo_csv('photo_db.csv')
 #     #db_connection.insert_obj_photo_csv('obj_photo_db.csv')
-#     db_connection.insert_obj_kind_csv('obj_kind_db.csv')
+#     db_connection.insert_photo_obj_csv('photo_obj_db.csv')

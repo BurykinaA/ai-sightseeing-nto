@@ -1,3 +1,6 @@
+from app.connection.sqllite3_connection import Sqlite3Connection
+
+
 def get_object_info(db, object_id):
     safe_object_id = object_id.replace("'", "''")
 
@@ -13,7 +16,7 @@ def get_object_info(db, object_id):
     return db.get(query)
 
 
-def get_filtered_objects_info(db, city=None, kind=None, rate=None, limit=1, offset=10):
+def get_filtered_objects_info(city=None, kind=None, rate=None, limit=1, offset=10):
     where_clauses = []
 
     if city:
@@ -43,16 +46,8 @@ def get_filtered_objects_info(db, city=None, kind=None, rate=None, limit=1, offs
             o.lat, 
             o.rate, 
             o.description,
-            p.base64
+            (SELECT p.base64 FROM photo_obj p WHERE p.id_obj = o.id LIMIT 1) as base64
         FROM object o
-        LEFT JOIN (
-            SELECT 
-                op.id_obj,
-                p.base64,
-                ROW_NUMBER() OVER(PARTITION BY op.id_obj ORDER BY p.id ASC) as rn
-            FROM obj_photo op
-            JOIN photo p ON op.id_photo = p.id
-        ) as p ON o.id = p.id_obj AND p.rn = 1
     """
 
     if where_clauses:
@@ -60,8 +55,9 @@ def get_filtered_objects_info(db, city=None, kind=None, rate=None, limit=1, offs
 
     query += f" LIMIT {limit} OFFSET {offset}"
 
-    result = db.get(query)
+    db = Sqlite3Connection()
 
+    result = db.get(query)
     formatted_result = [
         {
             "id": row[0],
@@ -70,6 +66,7 @@ def get_filtered_objects_info(db, city=None, kind=None, rate=None, limit=1, offs
             "description": row[6],
             "coordinates": [row[3], row[4]],
             "city": row[2],
+            "rate": row[5],
         }
         for row in result
     ]
