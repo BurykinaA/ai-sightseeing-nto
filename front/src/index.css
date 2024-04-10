@@ -77,3 +77,161 @@ div{
   width: 100%;
 }
 
+
+.blueButton{
+  height: 40px;
+  color: var(--White, #FFF);
+  text-align: center;
+  /* Main-16-reg */
+  
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+  display: inline-flex;
+  padding: 8px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  background: var(--Gosblue, #1D5DEB);
+}
+
+
+.blueButton:hover{
+  background: #0075FF;
+}
+
+.blueButton:active{
+  background: #0B40B3;
+}
+
+.blueButton:disabled{
+  color: #86909C;
+  background: #E5EAF5;
+}
+
+.blueButtonInherit{
+  height: 40px;
+  color: var(--White, #1D5DEB);
+  text-align: center;
+  /* Main-16-reg */
+  
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+  display: inline-flex;
+  padding: 8px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--Gosblue, #1D5DEB);
+  background: inherit;
+}
+
+
+.blueButtonInherit:hover{
+  color: var(--White, #0075FF);
+  border: 1px solid var(--Active-item, #0075FF);
+}
+
+.blueButtonInherit:active{
+  color: var(--White, #0B40B3);
+  border: 1px solid var(--Pulsante-premuto, #0B40B3);
+}
+
+.blueButtonInherit:disabled{
+  color: #86909C;
+  background: #E5EAF5;
+}
+.redButtonInherit{
+  height: 40px;
+  color: var(--Tela-rossa, #E11432);
+  text-align: center;
+  /* Main-16-reg */
+  
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+  display: inline-flex;
+  padding: 8px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--Tela-rossa, #E11432);
+  background: inherit;
+}
+
+
+.redButtonInherit:hover{
+  
+  border: 1px solid var(--Tela-rossa, #E11432);
+  background: var(--Petalo-rosa, #FCD9DE);  
+}
+
+.redButtonInherit:active{
+  color: var(--Gosred, #EE3F58);
+  border: 1px solid var(--Gosred, #EE3F58);
+  background: var(--Petalo-rosa, #FCD9DE);
+}
+.redButtonInherit:disabled{
+  color: #86909C;
+  background: #E5EAF5;
+}
+
+.inheritButton{
+  color: var(--Gosblue, #1D5DEB);
+  text-align: center;
+  /* Main-16-reg */
+  
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+  display: inline-flex;
+  padding: 0px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background: inherit;
+}
+
+.inheritButton:hover{
+  color: var(--Pulsante-premuto, #0B40B3);
+}
+
+.inheritButton:disabled{
+  color: #86909C;
+  background: #E5EAF5;
+}
+ 
+.inheritButtonRed{
+  color: var(--Tela-rossa, #E11432);
+  text-align: center;
+  /* Main-16-reg */
+  
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+  display: inline-flex;
+  padding: 0px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background: inherit;
+}
+
+.inheritButtonRed:hover{
+  color: var(--Gosred, #EE3F58);
+}
+
+.inheritButtonRed:disabled{
+  color: #86909C;
+  background: #E5EAF5;
+}
+ 
