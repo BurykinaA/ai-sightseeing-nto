@@ -18,20 +18,23 @@ def get_object_info(object_id):
     """
     db = Sqlite3Connection()
 
-    row = db.get(query)
+    result = db.get(query)
 
-    formatted_result = {
-        "id": row[0],
-        "name": row[1],
-        "description": row[6],
-        "coordinates": [float(row[3]), float(row[4])],
-        "city": row[2],
-        "type": row[7],
-        "rate": row[5],
-        "photo": row[8].split(",") if row[8] else [],
-    }
+    formatted_result = [
+        {
+            "id": row[0],
+            "name": row[1],
+            "description": row[6],
+            "coordinates": [float(row[3]), float(row[4])],
+            "city": row[2],
+            "type": row[7],
+            "rate": row[5],
+            "photo": row[8].split(",") if row[8] else [],
+        }
+        for row in result
+    ]
 
-    return formatted_result
+    return formatted_result[0]
 
 
 def get_filtered_objects_info(city=None, kind=None, rate=None, limit=1, offset=10):
