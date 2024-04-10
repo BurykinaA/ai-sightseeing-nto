@@ -9,6 +9,7 @@ import PhotoSearch from '../components/PhotoSearch';
 import TextSearch from '../components/TextSearch';
 import SelectDD from '../components/SelectDD';
 import Filter from '../components/Filter';
+import { URL } from '../const';
 
 // import AppRouted from './router/AppRouted'
 
@@ -25,7 +26,7 @@ function Home() {
   const [page, setPage] = useState(1);
   
   const getData=()=>{
-    axios.get(`https://jsonplaceholder.typicode.com/photos?_limit=10&_page=${page}`
+    axios.get(URL+`api/object?_limit=10&_page=${page}`
     +`${filter.owner.length==0?'':'&owner='+filter.owner.map((item)=>item.id)}${filter.status.length==0?'':'&status='+filter.status.map((item)=>item.id)}${filter.type.length==0?'':'&is_private='+filter.type.map((item)=>item.id)}`
     , '')
     .then(response=>{
