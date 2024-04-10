@@ -36,15 +36,15 @@ type = [
 ]
 
 type_cat = {
-    '0': "Музеи и памятники",
-    '1': "Религиозные места",
-    '2': "Рестораны и еда",
-    '3': "Природные объекты",
-    '4': "Спорт и развлечения",
-    '5': "Финансовые и банковские учреждения",
-    '6': "Туристические объекты",
-    '7': "Другие места",
-    '8': "Архитектурные объекты",
+    "0": "Музеи и памятники",
+    "1": "Религиозные места",
+    "2": "Рестораны и еда",
+    "3": "Природные объекты",
+    "4": "Спорт и развлечения",
+    "5": "Финансовые и банковские учреждения",
+    "6": "Туристические объекты",
+    "7": "Другие места",
+    "8": "Архитектурные объекты",
 }
 
 rate = [
@@ -55,7 +55,7 @@ rate = [
     {"id": 4, "value": "2h"},
 ]
 
-rate_cat = {'0': "3h", '1': "3", '2': "2", '3': "1", '4': "2h"}
+rate_cat = {"0": "3h", "1": "3", "2": "2", "3": "1", "4": "2h"}
 
 
 @cross_origin()
@@ -65,10 +65,10 @@ def get_objects():
         city = request.args.get("city")
 
         kind = request.args.get("category")
-        kind = [type_cat[i] for i in kind.split(',')] if kind is not None else None
+        kind = [type_cat[i] for i in kind.split(",")] if kind is not None else None
 
         rate = request.args.get("rate")
-        rate = [rate_cat[i] for i in rate.split(',')] if rate is not None else None
+        rate = [rate_cat[i] for i in rate.split(",")] if rate is not None else None
 
         page = int(request.args.get("page", 1))
         limit = int(request.args.get("_limit", 10))
@@ -93,7 +93,7 @@ def get_filters():
 
 @cross_origin()
 @object.get("/api/object_coordinates")
-def get_coords():
+def get_coords_api():
     try:
         return make_response(get_coords(), 200)
     except Exception as e:

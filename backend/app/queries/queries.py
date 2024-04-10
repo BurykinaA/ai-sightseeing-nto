@@ -44,7 +44,7 @@ def get_filtered_objects_info(city=None, kind=None, rate=None, limit=1, offset=1
         where_clauses.append(f"o.city = '{city}'")
 
     if kind:
-        kind_conditions = 'or '.join([f"o.kind like '%{k}%' " for k in kind])
+        kind_conditions = "or ".join([f"o.kind like '%{k}%' " for k in kind])
         where_clauses.append(f"({kind_conditions})")
 
     if rate:
