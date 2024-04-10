@@ -88,7 +88,7 @@ function SelectDD({value, name, handleFilterChangeNew, type,filter, opened, setO
           {(value.filter(item => !selected.some(selectedItem => selectedItem.id == item.id)))&& 
           value.filter(item => !selected.some(selectedItem => selectedItem.id == item.id)).map(item=>
              
-             <div onClick={(e)=>{ !selected.some(obj => obj.id === item.id)&&(setSelected([...selected, {id:item.id, value:item.value, short_name:item.short_name}]))}} key={item.id} value={item.value} className="border-b px-2 min-h-11  py-3 justify-start items-center gap-1 inline-flex hover:bg-slate-100">
+             <div onClick={(e)=>{ !selected.some(obj => obj.id === item.id)&&(setSelected([...selected, {id:item.id, value:item.value, coordinates:item.coordinates}]))}} key={item.id} value={item.value} className="border-b px-2 min-h-11  py-3 justify-start items-center gap-1 inline-flex hover:bg-slate-100">
               <div className="  border-slate-200 text-slate-900 text-sm font-normal   leading-tight">{item.value}</div>
             </div>
                 )}

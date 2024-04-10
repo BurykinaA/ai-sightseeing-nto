@@ -11,19 +11,24 @@ function Filter({filter, handleFilterChangeNew, setFilter, getData}) {
         "values": [
             {
                 "id": "Владимир",
-                "value": "Владимир"
+                "value": "Владимир",
+                "coordinates": [56.129042, 40.407215],
             },
             {
                 "id": "Ярославль",
-                "value": "Ярославль"
+                "value": "Ярославль",
+                "coordinates": [57.626074, 39.884470]
+
             },
             {
                 "id":  "Нижний Новгород",
-                "value": "Нижний Новгород"
+                "value": "Нижний Новгород",
+                "coordinates": [56.326887, 44.005986]
             },
             {
                 "id": "Екатеринбург",
-                "value": "Екатеринбург"
+                "value": "Екатеринбург",
+                "coordinates": [56.838011, 60.597465]
             },
             
         ]

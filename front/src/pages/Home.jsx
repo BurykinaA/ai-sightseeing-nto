@@ -49,7 +49,7 @@ function Home() {
   }, [fetching]);
 
   const handleScroll = () => {
-    if (!fetching && (window.innerHeight + window.scrollY) >= document.body.scrollHeight - 200) {
+    if (!fetching && (window.innerHeight + window.scrollY) >= document.body.scrollHeight - 600) {
       setFetching(true);
     }
   };
@@ -85,7 +85,7 @@ function Home() {
 
       <div className='relative w-[400px] min-w-[400px] text-left '>
         <div className='fixed w-max flex flex-col gap-4'>
-          <CustomMap data={data}/>
+          <CustomMap data={data} filter={filter}/>
           <Filter filter={filter} setFilter={setFilter} handleFilterChangeNew={handleFilterChangeNew} getData={getData}/>
         
 

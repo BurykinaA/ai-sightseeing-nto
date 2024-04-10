@@ -6,6 +6,7 @@ import Card from '../components/Card'
 import MapWithRoute from '../components/MapWithRoute';
 import CustomMap from '../components/Map';
 import { useParams } from 'react-router-dom';
+import { URL } from '../const';
 // import AppRouted from './router/AppRouted'
 
 function Object() {
@@ -13,7 +14,7 @@ function Object() {
   const [data, setData]=useState([])
   const [obj, setObj]=useState({})
   useEffect(()=>{
-    axios.get('https://jsonplaceholder.typicode.com/photos/'+params.id, '')
+    axios.get(URL+'/api/object/'+params.id, '')
     .then(response=>{
       setObj(response.data)
       
@@ -39,7 +40,7 @@ function Object() {
 
         <div className='flex flex-col gap-[20px] w-max'>
           <img className='w-[400px] h-[400px] rounded-lg object-cover shadow-md' src={obj.url}/>
-          <CustomMap/>
+          <CustomMap data={[obj]} city={obj.coordinates}/>
         </div>
         <div className='flex flex-col w-full '>
           <p className='text-3xl font-bold'> {obj.id}</p>
