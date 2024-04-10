@@ -3,7 +3,7 @@ import '../App.css'
 import { Link } from 'react-router-dom'
 import { YMaps, Map, Placemark, Polygon, RouteButton, GeolocationControl, RoutePanel } from '@pbe/react-yandex-maps';
 
-function CustomMap() {
+function CustomMap({data}) {
   const [count, setCount] = useState(0)
 
   return (
@@ -17,13 +17,16 @@ function CustomMap() {
         <RouteButton options={{ float: "right" }} />
     
         <GeolocationControl options={{ float: "left" }} />
-        <Placemark
-          modules={["geoObject.addon.balloon"]}
-          geometry={[56.313118, 43.992873]}
-          properties={{
-            balloonContentBody: "<a target='_blank' href='/1'>Перейти к объекту 1</a>"
-          }}
-        />
+        {data&&data.map(item=>
+          <Placemark
+            modules={["geoObject.addon.balloon"]}
+            geometry={item.coordinates}
+            properties={{
+              balloonContentBody: "<a target='_blank' href='/1'>Перейти к объекту 1</a>"
+            }}
+          />
+        )}
+       
      
       </Map>
     </YMaps>
