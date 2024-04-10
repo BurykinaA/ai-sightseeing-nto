@@ -33,7 +33,7 @@ function Object() {
   },[params.id])
 
   return (
-    <div className='flex flex-col gap-[20px] text-left' >
+    <div className='flex flex-col gap-[20px] text-left pb-4' >
 
       <div className='flex gap-[20px]'>
 
@@ -48,12 +48,12 @@ function Object() {
         </div>
       </div>
       <div>
-      <p className='text-3xl font-bold'> Похожее</p>
-      <div className='overflow-auto flex gap-[16px]'>
-        {data.map(item=>
-          <Card key={item.id} item={item}/>
-        )}
-      </div>
+        <p className='text-3xl font-bold mb-4'> Похожее</p>
+        <div className='overflow-auto flex gap-4 h-[600px] items-center'>
+          {data.map(item=>
+            <Card key={item.id} item={item}/>
+          )}
+        </div>
       </div>
     </div>
     
