@@ -17,7 +17,8 @@ from app.queries.queries import get_object_info, get_filtered_objects_info, get_
 def get_object_by_id(id):
     try:
         object_info = get_object_info(id)
-        return make_response(get_object_info(object_info), 200)
+
+        return make_response(object_info, 200)
     except Exception as e:
         print(e)
         return make_response({"error": "Internal Server Error"}, 500)
