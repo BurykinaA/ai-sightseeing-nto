@@ -13,7 +13,7 @@ def get_object_info(db, object_id):
     return db.get(query)
 
 
-def get_filtered_objects_info(db, city=None, kind=None, rate=None):
+def get_filtered_objects_info(db, city=None, kind=None, rate=None,  limit=1, offset=10):
     where_clauses = []
     
     # Для безопасности используйте параметризованные запросы вместо форматирования строк
@@ -47,5 +47,6 @@ def get_filtered_objects_info(db, city=None, kind=None, rate=None):
     # Добавляем условия WHERE, если они есть
     if where_clauses:
         query += " WHERE " + " AND ".join(where_clauses)
-    
-    return db.get(query, params)
+
+    query += f'LIMIT :{limit} OFFSET :{offset}'
+    return db.get(query)

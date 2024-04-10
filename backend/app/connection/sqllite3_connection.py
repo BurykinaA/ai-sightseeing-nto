@@ -1,6 +1,6 @@
 import sqlite3
 import csv
-
+import sys
 
 class Sqlite3Connection:
     """
@@ -9,7 +9,8 @@ class Sqlite3Connection:
     path = None
     conn = None
 
-    def __init__(self, path=r'D:\ai-sightseeing-nto\backend\app\database\sights.db'):
+    def __init__(self, path='app/database/sights.db'):
+        print(sys.path)
         self.path = path
 
     def open(self):

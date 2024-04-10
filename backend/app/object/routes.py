@@ -17,7 +17,7 @@ db_connection = Sqlite3Connection()
 
 
 @cross_origin()
-@object.get("/api/object")
+@object.get("/api/object/<id>")
 def get_object_by_id(id):
     try:
         object_info = get_object_info(db_connection, id)
@@ -34,8 +34,13 @@ def get_objects():
         city = request.args.get('city')
         kind = request.args.get('category')
         rate = request.args.get('rate')
+        page = int(request.args.get('page', 1))
+        limit = int(request.args.get('limit', 10))
 
-        object_info = get_filtered_objects_info(db_connection, city, kind, rate)
+        offset = (page - 1) * limit
+
+        object_info = get_filtered_objects_info(
+            db_connection, city, kind, rate, limit, offset)
     
         return make_response(object_info, 200)
     except Exception as e:
