@@ -22,14 +22,8 @@ db_connection = Sqlite3Connection()
 def make_correction():
     try:
         object_info = get_object_info(db_connection, 'W38411380')
-
-        # print(object_info)
-
-        response = {
-            'hui' : 'dsdsd'
-        }
-
-        return make_response(response, 200)
+        
+        return make_response(object_info, 200)
 
     except Exception as e:
         print(e)
