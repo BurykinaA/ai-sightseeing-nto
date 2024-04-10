@@ -25,7 +25,7 @@ def get_object_info(object_id):
             "id": row[0],
             "name": row[1],
             "description": row[6],
-            "coordinates": [float(row[3]), float(row[4])],
+            "coordinates": [float(row[4]), float(row[3])],
             "city": row[2],
             "type": row[7],
             "rate": row[5],
