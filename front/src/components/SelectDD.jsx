@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 
 
-function SelectDD({value, name, handleFilterChangeNew, type,filter, opened}) {
+function SelectDD({value, name, handleFilterChangeNew, type,filter, opened, setOpened}) {
   const item =[]
   const [selected, setSelected]= useState([])
   useEffect(()=>{
@@ -26,7 +26,7 @@ function SelectDD({value, name, handleFilterChangeNew, type,filter, opened}) {
   const [open, setOpen]= useState(false)
 
   useEffect(()=>{
-   setOpen(false)
+    setOpen(opened)
   },[opened])
 
 
