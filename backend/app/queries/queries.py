@@ -42,7 +42,7 @@ def get_filtered_objects_info(db, city=None, kind=None, rate=None, limit=1, offs
             o.lon, 
             o.lat, 
             o.rate, 
-            o.description, 
+            o.description,
             p.base64
         FROM object o
         LEFT JOIN (
@@ -53,7 +53,6 @@ def get_filtered_objects_info(db, city=None, kind=None, rate=None, limit=1, offs
             FROM obj_photo op
             JOIN photo p ON op.id_photo = p.id
         ) as p ON o.id = p.id_obj AND p.rn = 1
-        LEFT JOIN obj_kind ok ON o.id = ok.id_obj
     """
 
     if where_clauses:
