@@ -108,7 +108,6 @@ def get_coords():
             "id": row[0],
             "coordinates": [row[3], row[2]],
             "name": row[1],
-            "description": row[6],
         }
         for row in result
     ]
