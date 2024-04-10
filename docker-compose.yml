@@ -1,0 +1,19 @@
+version: '2.1'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+    networks:
+      - backend
+    ports:
+      - 5001:5000
+  frontend:
+    build:
+      context: ./front
+    networks:
+      - backend
+    ports:
+      - 5173:5173
+networks:
+  backend:
