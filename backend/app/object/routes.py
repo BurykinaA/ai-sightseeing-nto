@@ -44,7 +44,7 @@ type_cat = {
     5: "Финансовые и банковские учреждения",
     6: "Туристические объекты",
     7: "Другие места",
-    8: "Архитектурные объекты"
+    8: "Архитектурные объекты",
 }
 
 rate = [
@@ -55,13 +55,7 @@ rate = [
     {"id": 4, "value": "2h"},
 ]
 
-rate_cat = {
-    0: "3h",
-    1: "3",
-    2: "2",
-    3: "1",
-    4: "2h"
-}
+rate_cat = {0: "3h", 1: "3", 2: "2", 3: "1", 4: "2h"}
 
 
 @cross_origin()
@@ -69,8 +63,10 @@ rate_cat = {
 def get_objects():
     try:
         city = request.args.get("city")
-        kind = type_cat[request.args.get("category")]
-        rate = rate_cat[request.args.get("rate")]
+        kind = request.args.get("category")
+        kind = type_cat[kind] if kind is not None else kind
+        rate = request.args.get("rate")
+        rate = rate_cat[rate] if kind is not None else kind
         page = int(request.args.get("page", 1))
         limit = int(request.args.get("_limit", 10))
 
@@ -80,7 +76,6 @@ def get_objects():
 
         return make_response(object_info, 200)
     except Exception as e:
-        print(e)
         return make_response({"error": "Internal Server Error"}, 500)
 
 
@@ -95,10 +90,10 @@ def get_filters():
 
 
 @cross_origin()
-@object.get("/api/filters")
+@object.get("/api/object_coordinates")
 def get_coords():
     try:
-        return make_response(get_coords, 200)
+        return make_response(get_coords(), 200)
     except Exception as e:
         print(e)
         return make_response({"error": "Internal Server Error"}, 500)
