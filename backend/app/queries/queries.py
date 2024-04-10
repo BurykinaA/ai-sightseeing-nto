@@ -83,7 +83,7 @@ def get_filtered_objects_info(city=None, kind=None, rate=None, limit=1, offset=1
         where_clauses.append(f"({kind_conditions})")
 
     if rate:
-        rate_conditions = " OR ".join([f"o.rate = {r}" for r in rate])
+        rate_conditions = " OR ".join([f"o.rate = '{r}'" for r in rate])
         where_clauses.append(f"({rate_conditions})")
 
     query = """
