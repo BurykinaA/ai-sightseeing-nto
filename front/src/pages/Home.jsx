@@ -26,12 +26,14 @@ function Home() {
   const [page, setPage] = useState(1);
   
   const getData=()=>{
-    axios.get(URL+`api/object?_limit=10&page=${page}`
-    +`${filter.owner.length==0?'':'&city='+filter.owner.map((item)=>item.id)}${filter.status.length==0?'':'&category='+filter.status.map((item)=>item.id)}${filter.type.length==0?'':'&rate='+filter.type.map((item)=>item.id)}`
+    setPage(1)
+    setData([])
+    axios.get(URL+`api/object?_limit=10&page=1`
+    +`${filter.owner.length==0?'':'&city='+filter.owner.map((item)=>item.id)}${filter.status.length==0?'':'&rate='+filter.status.map((item)=>item.id)}${filter.type.length==0?'':'&category='+filter.type.map((item)=>item.id)}`
     , '')
     .then(response=>{
       setPage(prevPage => prevPage + 1);
-      setData(prevData => [...prevData, ...response.data]);
+      setData(response.data);
       console.log(filter)
       setFetching(false);
     } ) 
@@ -45,7 +47,19 @@ function Home() {
   },[])
 
   useEffect(() => {
-   fetching&& getData()
+    fetching&&axios.get(URL+`api/object?_limit=10&page=${page}`
+    +`${filter.owner.length==0?'':'&city='+filter.owner.map((item)=>item.id)}${filter.status.length==0?'':'&rate='+filter.status.map((item)=>item.id)}${filter.type.length==0?'':'&category='+filter.type.map((item)=>item.id)}`
+    , '')
+    .then(response=>{
+      setPage(prevPage => prevPage + 1);
+      setData(prevData => [...prevData, ...response.data]);
+      console.log(filter)
+      setFetching(false);
+    } ) 
+    .catch(function (error) {
+      console.log(error);
+      setFetching(false);
+    });
   }, [fetching]);
 
   const handleScroll = () => {

@@ -36,15 +36,15 @@ type = [
 ]
 
 type_cat = {
-    0: "Музеи и памятники",
-    1: "Религиозные места",
-    2: "Рестораны и еда",
-    3: "Природные объекты",
-    4: "Спорт и развлечения",
-    5: "Финансовые и банковские учреждения",
-    6: "Туристические объекты",
-    7: "Другие места",
-    8: "Архитектурные объекты",
+    '0': "Музеи и памятники",
+    '1': "Религиозные места",
+    '2': "Рестораны и еда",
+    '3': "Природные объекты",
+    '4': "Спорт и развлечения",
+    '5': "Финансовые и банковские учреждения",
+    '6': "Туристические объекты",
+    '7': "Другие места",
+    '8': "Архитектурные объекты",
 }
 
 rate = [
@@ -55,7 +55,7 @@ rate = [
     {"id": 4, "value": "2h"},
 ]
 
-rate_cat = {0: "3h", 1: "3", 2: "2", 3: "1", 4: "2h"}
+rate_cat = {'0': "3h", '1': "3", '2': "2", '3': "1", '4': "2h"}
 
 
 @cross_origin()
@@ -66,12 +66,11 @@ def get_objects():
         kind = request.args.get("category")
         kind = type_cat[kind] if kind is not None else kind
         rate = request.args.get("rate")
-        rate = rate_cat[rate] if kind is not None else kind
+        rate = rate_cat[rate] if rate is not None else rate
         page = int(request.args.get("page", 1))
         limit = int(request.args.get("_limit", 10))
 
         offset = (page - 1) * limit
-
         object_info = get_filtered_objects_info(city, kind, rate, limit, offset)
 
         return make_response(object_info, 200)

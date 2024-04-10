@@ -1,12 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import '../App.css'
 import { Link } from 'react-router-dom'
 import SelectDD from './SelectDD'
+import axios from 'axios'
+import { URL } from '../const'
 
 function Filter({filter, handleFilterChangeNew, setFilter, getData}) {
   const [count, setCount] = useState(0)
   const [open, setOpen]=useState(false)
-  const stats={
+  const stat={
     "owner": {
         "values": [
             {
@@ -33,26 +35,18 @@ function Filter({filter, handleFilterChangeNew, setFilter, getData}) {
             
         ]
     },
-    "status": {
-        "values": [
-            {
-                "id": 1,
-                "value": "Действующий"
-            },
-            {
-                "id": 2,
-                "value": "Проект"
-            },
-            {
-                "id": 3,
-                "value": "В работе"
-            },
-            {
-                "id": 4,
-                "value": "Реализован"
-            }
-        ]
-    },}
+   }
+  const [stats, setStats]=useState({})
+    useEffect(()=>{
+      axios.get(URL+'api/filters', '')
+      .then(response=>{
+        setStats(response.data)
+        
+      } ) 
+      .catch(function (error) {
+        console.log(error);
+      });
+    },[])
   
   return (
     
@@ -73,13 +67,13 @@ function Filter({filter, handleFilterChangeNew, setFilter, getData}) {
     {open&&<div>
       <div className='flex flex-col gap-2'>
         Город
-      <SelectDD opened={false}  filter={filter.owner}  handleFilterChangeNew={handleFilterChangeNew} name='Город' type='owner' value={stats&&stats.owner.values} />
+      <SelectDD opened={false}  filter={filter.owner}  handleFilterChangeNew={handleFilterChangeNew} name='Город' type='owner' value={stat&&stat.owner.values} />
   
       Тип достопримечательности
-      <SelectDD opened={false} filter={filter.type} handleFilterChangeNew={handleFilterChangeNew} name='Тип достопримечательности' type='type'   value={stats&&stats.status.values} />
+      <SelectDD opened={false} filter={filter.type} handleFilterChangeNew={handleFilterChangeNew} name='Тип достопримечательности' type='type'   value={stats&&stats.type} />
       
       Важность достопримечательности
-      <SelectDD opened={false} filter={filter.status} handleFilterChangeNew={handleFilterChangeNew} name='Важность достопримечательности' type='status' value={[{id: 1, value: '1'},{id: 2, value: '2'},{id: 3, value: '3'}]}/>
+      <SelectDD opened={false} filter={filter.status} handleFilterChangeNew={handleFilterChangeNew} name='Важность достопримечательности' type='status' value={stats&&stats.rate}/>
     
       </div>
       <div className='flex gap-2 mt-4'>

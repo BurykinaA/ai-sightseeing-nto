@@ -70,6 +70,8 @@ def get_filtered_objects_info(city=None, kind=None, rate=None, limit=1, offset=1
 
     db = Sqlite3Connection()
 
+    print(query)
+
     result = db.get(query)
     formatted_result = [
         {
