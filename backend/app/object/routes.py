@@ -36,8 +36,6 @@ def get_objects():
 
         object_info = get_filtered_objects_info(
             city, kind, rate, limit, offset)
-        
-        print(object_info)
     
         return make_response(object_info, 200)
     except Exception as e:
