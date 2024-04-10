@@ -9,7 +9,7 @@ from flask_cors import cross_origin
 # import io
 # import cv2
 
-from app.queries.queries import get_object_info, get_filtered_objects_info, get_coords
+from app.queries.queries import get_object_info, get_filtered_objects_info, get_coords, get_name_info
 
 
 @cross_origin()
@@ -97,6 +97,18 @@ def get_filters():
 def get_coords_api():
     try:
         return make_response(get_coords(), 200)
+    except Exception as e:
+        print(e)
+        return make_response({"error": "Internal Server Error"}, 500)
+
+
+@cross_origin()
+@object.post("/api/text_research")
+def get_text_api():
+    try:
+        data = request.json["text"]
+        response = get_name_info(data)
+        return make_response(response, 200)
     except Exception as e:
         print(e)
         return make_response({"error": "Internal Server Error"}, 500)
