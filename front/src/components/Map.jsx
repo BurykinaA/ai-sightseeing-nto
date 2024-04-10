@@ -17,14 +17,19 @@ function CustomMap({data}) {
         <RouteButton options={{ float: "right" }} />
     
         <GeolocationControl options={{ float: "left" }} />
-        {data&&data.map(item=>
-          <Placemark
+        {data.length>0&&data.map(item=>
+        <>
+{console.log(item.coordinates)}
+<Placemark
             modules={["geoObject.addon.balloon"]}
             geometry={item.coordinates}
             properties={{
               balloonContentBody: "<a target='_blank' href='/1'>Перейти к объекту 1</a>"
             }}
           />
+        
+        </>
+          
         )}
        
      
