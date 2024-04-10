@@ -48,7 +48,6 @@ function Home() {
   }, [fetching]);
 
   const handleScroll = () => {
-    console.log(fetching, (window.innerHeight + window.scrollY), document.body.scrollHeight - 200, (window.innerHeight + window.scrollY) >= document.body.scrollHeight - 200)
     if (!fetching && (window.innerHeight + window.scrollY) >= document.body.scrollHeight - 200) {
       setFetching(true);
     }

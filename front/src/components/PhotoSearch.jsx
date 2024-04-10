@@ -12,19 +12,44 @@ function PhotoSearch({objID, disabled}) {
   
   const [openModal, setOpenModal] = useState(false);
   const [data, setData]=  useState({
-    subject_id:parseInt(objID, 10),
-    name:'',
-    date:'',
     comment:'',
-    pictures:[]
+    pic:''
   })
+  // const [data, setData] = useState([]);
 
-  const [pictures, setPictures]=  useState([
-    {id: 1, name:'name 1', type:'txt', weight: "0.1"},
-    {id: 2, name:'name 2', type:'xls', weight: "0.2"},
-    {id: 3, name:'name 3', type:'pdf', weight: "0.3"},
-    {id: 4, name:'name 4', type:'txt', weight: "0.4"},
-    ])
+  const handleFileChange = (event) => {
+    const files = event.target.files; // Получаем выбранные файлы
+    // const fileList = []; // Создаем пустой массив для хранения информации о файлах
+    const formData = new FormData();
+
+    Array.from(files).forEach((file, index) => {
+      formData.append(`file`, file); // Добавляем файл в объект FormData
+    });
+    // Преобразуем объект FileList в массив и записываем его в состояние
+    const fileList = Array.from(files).map((file, index) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const base64String = reader.result.split(',')[1]; // получаем строку base64 без префикса 'data:image/jpeg;base64,'
+        // Здесь вы можете использовать base64String, например, отправить его на сервер или сохранить в состоянии вашего приложения
+        fileItem.file = base64String; // Записываем строку base64 в поле file
+      };
+      const fileItem = {
+        id: pictures.length + index + 1,
+        name: file.name,
+        type: file.name.substring(file.name.lastIndexOf('.') + 1),
+        weight: (file.size / 1024 / 1024).toFixed(2), // Преобразуем размер в мегабайты и округляем до двух знаков после запятой
+        file: undefined // Изначально устанавливаем file как undefined, затем заменим его на base64String
+      };
+      return fileItem;
+    });
+    
+    
+    setData({...data, pic:formData})
+    setPictures(prevData => [...prevData, ...fileList]);
+  };
+
+  const [pictures, setPictures]=  useState([])
     const deletePicture=(id)=>{
         setPictures(prevPic => prevPic.filter(item => item.id != id))
     }
@@ -33,7 +58,7 @@ function PhotoSearch({objID, disabled}) {
     const handleSubmit=(event)=>{
         event.preventDefault(); // Предотвращаем перезагрузку страницы
         setOpenModal(false)
-        axios.post('api/?', data,'' )
+        axios.post('api/?', {taxt:data.comment, pictures:pictures},'' )
         .then(response=>{
         console.log(response.data)
         // setContact([...contact, data])
@@ -71,7 +96,7 @@ function PhotoSearch({objID, disabled}) {
                             Выбрать файл
                         </p>
                     </div>
-                    <input id="dropzone-file" type="file" class="hidden" multiple/>
+                    <input required accept="image/*" id="dropzone-file" type="file" class="hidden" multiple onChange={handleFileChange}/>
                 </label>
             </div> 
            
@@ -82,7 +107,7 @@ function PhotoSearch({objID, disabled}) {
             </div>
             <div className=''>
                 <p className="font-normal text-[#0B1F33] mb-2" > Описание</p>
-                <input required className=" bg-[#F5F7FA] rounded-lg h-10 w-full outline-0 px-2 py-2.5" placeholder="Описание" value={data.comment} onChange={(e)=>setData({...data, comment:e.target.value})}/>
+                <input  className=" bg-[#F5F7FA] rounded-lg h-10 w-full outline-0 px-2 py-2.5" placeholder="Описание" value={data.comment} onChange={(e)=>setData({...data, comment:e.target.value})}/>
             </div>
              <div>
              <button 
