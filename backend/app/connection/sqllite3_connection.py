@@ -6,10 +6,11 @@ class Sqlite3Connection:
     """
     Sqlite3 wrapper class to open, close and access the connection
     """
+
     path = None
     conn = None
 
-    def __init__(self, path=r'D:\ai-sightseeing-nto\backend\app\database\sights.db'):
+    def __init__(self, path=r"D:\ai-sightseeing-nto\backend\app\database\sights.db"):
         self.path = path
 
     def open(self):
@@ -52,19 +53,33 @@ class Sqlite3Connection:
 
         self.close()
         return response
-    
+
     def insert_obj_csv(self, csv_path):
-        table = 'object'
+        table = "object"
         if self.conn is None:
             self.open()
 
-        with open(csv_path, mode='r', encoding='utf-8') as file:
+        with open(csv_path, mode="r", encoding="utf-8") as file:
             dr = csv.DictReader(file)  # assuming no header
-            to_db = [(i['id'], i['name'], i['city'], i['lon'], i['lat'], i['rate'], i['description']) for i in dr]
+            to_db = [
+                (
+                    i["id"],
+                    i["name"],
+                    i["city"],
+                    i["lon"],
+                    i["lat"],
+                    i["rate"],
+                    i["description"],
+                )
+                for i in dr
+            ]
 
         try:
             cur = self.conn.cursor()
-            cur.executemany(f"INSERT INTO {table} (id, name, city, lon, lat, rate, description) VALUES (?, ?, ?, ?, ?, ?, ?);", to_db)
+            cur.executemany(
+                f"INSERT INTO {table} (id, name, city, lon, lat, rate, description) VALUES (?, ?, ?, ?, ?, ?, ?);",
+                to_db,
+            )
             self.conn.commit()
             response = "Done - Rows affected: " + str(cur.rowcount)
         except sqlite3.Error as err:
@@ -72,15 +87,15 @@ class Sqlite3Connection:
 
         self.close()
         return response
-    
+
     def insert_kind_csv(self, csv_path):
-        table = 'kind'
+        table = "kind"
         if self.conn is None:
             self.open()
 
-        with open(csv_path, mode='r', encoding='utf-8') as file:
+        with open(csv_path, mode="r", encoding="utf-8") as file:
             dr = csv.DictReader(file)  # assuming no header
-            to_db = [(i['id'], i['type']) for i in dr]
+            to_db = [(i["id"], i["type"]) for i in dr]
 
         try:
             cur = self.conn.cursor()
@@ -92,17 +107,17 @@ class Sqlite3Connection:
 
         self.close()
         return response
-    
+
     def insert_photo_csv(self, csv_path):
-        table = 'photo'
+        table = "photo"
         if self.conn is None:
             self.open()
 
         csv.field_size_limit(2**30)
 
-        with open(csv_path, mode='r', encoding='utf-8') as file:
+        with open(csv_path, mode="r", encoding="utf-8") as file:
             dr = csv.DictReader(file)  # assuming no header
-            to_db = [(i['id'], i['base64']) for i in dr]
+            to_db = [(i["id"], i["base64"]) for i in dr]
 
         try:
             cur = self.conn.cursor()
@@ -114,21 +129,23 @@ class Sqlite3Connection:
 
         self.close()
         return response
-    
+
     def insert_obj_photo_csv(self, csv_path):
-        table = 'obj_photo'
+        table = "obj_photo"
         if self.conn is None:
             self.open()
 
         csv.field_size_limit(2**30)
 
-        with open(csv_path, mode='r', encoding='utf-8') as file:
+        with open(csv_path, mode="r", encoding="utf-8") as file:
             dr = csv.DictReader(file)  # assuming no header
-            to_db = [(i['id'], i['id_obj'], i['id_photo']) for i in dr]
+            to_db = [(i["id"], i["id_obj"], i["id_photo"]) for i in dr]
 
         try:
             cur = self.conn.cursor()
-            cur.executemany(f"INSERT INTO {table} (id, id_obj, id_photo) VALUES (?, ?, ?);", to_db)
+            cur.executemany(
+                f"INSERT INTO {table} (id, id_obj, id_photo) VALUES (?, ?, ?);", to_db
+            )
             self.conn.commit()
             response = "Done - Rows affected: " + str(cur.rowcount)
         except sqlite3.Error as err:
@@ -136,22 +153,24 @@ class Sqlite3Connection:
 
         self.close()
         return response
-    
+
     def insert_obj_kind_csv(self, csv_path):
-        table = 'obj_kind'
+        table = "obj_kind"
         if self.conn is None:
             self.open()
 
-        with open(csv_path, mode='r', encoding='utf-8') as file:
+        with open(csv_path, mode="r", encoding="utf-8") as file:
             dr = csv.DictReader(file)  # assuming no header
-            to_db = [(i['id'], i['id_kind'], i['id_obj']) for i in dr]
+            to_db = [(i["id"], i["id_kind"], i["id_obj"]) for i in dr]
 
         try:
             cur = self.conn.cursor()
-            cur.executemany(f"INSERT INTO {table} (id, id_kind, id_obj) VALUES (?, ?, ?);", to_db)
+            cur.executemany(
+                f"INSERT INTO {table} (id, id_kind, id_obj) VALUES (?, ?, ?);", to_db
+            )
             self.conn.commit()
             response = "Done - Rows affected: " + str(cur.rowcount)
-            print( "Done - Rows affected: " + str(cur.rowcount))
+            print("Done - Rows affected: " + str(cur.rowcount))
         except sqlite3.Error as err:
             response = "Error - " + err.args[0]
             print("Error - " + err.args[0])
@@ -171,7 +190,7 @@ def sqlite3_call(database, query):
         return database.get(query)
     else:
         return database.put(query)
-    
+
 
 # if __name__ == '__main__':
 #     db_connection = Sqlite3Connection(r'D:\ai-sightseeing-nto\backend\app\database\sights.db')

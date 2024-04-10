@@ -1,4 +1,4 @@
-import sys 
+import sys
 from pathlib import Path
 
 # project_root = Path(__file__).absolute().parent.parent
@@ -10,6 +10,6 @@ print(sys.path)
 from sqlite3_connection import Sqlite3Connection
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     db_connection = Sqlite3Connection()
-    db_connection.insert_obj_csv('final_db.csv')
+    db_connection.insert_obj_csv("final_db.csv")

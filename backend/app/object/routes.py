@@ -16,16 +16,14 @@ from app.connection.sqllite3_connection import Sqlite3Connection
 db_connection = Sqlite3Connection()
 
 
-
 @cross_origin()
 @object.get("/api/object")
 def make_correction():
     try:
-        object_info = get_object_info(db_connection, 'W38411380')
-        
+        object_info = get_object_info(db_connection, "W38411380")
+
         return make_response(object_info, 200)
 
     except Exception as e:
         print(e)
         return make_response({"error": "no_body"})
-
