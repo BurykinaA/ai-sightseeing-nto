@@ -1,6 +1,7 @@
 import sqlite3
 import csv
 
+
 class Sqlite3Connection:
     """
     Sqlite3 wrapper class to open, close and access the connection
@@ -9,7 +10,7 @@ class Sqlite3Connection:
     path = None
     conn = None
 
-    def __init__(self, path='app/database/sights.db'):
+    def __init__(self, path="app/database/sights.db"):
         self.path = path
 
     def open(self):
@@ -69,6 +70,7 @@ class Sqlite3Connection:
                     i["lat"],
                     i["rate"],
                     i["description"],
+                    i["type"],
                 )
                 for i in dr
             ]
@@ -76,13 +78,14 @@ class Sqlite3Connection:
         try:
             cur = self.conn.cursor()
             cur.executemany(
-                f"INSERT INTO {table} (id, name, city, lon, lat, rate, description) VALUES (?, ?, ?, ?, ?, ?, ?);",
+                f"INSERT INTO {table} (id, name, city, lon, lat, rate, description, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
                 to_db,
             )
             self.conn.commit()
             response = "Done - Rows affected: " + str(cur.rowcount)
         except sqlite3.Error as err:
             response = "Error - " + err.args[0]
+            print(response)
 
         self.close()
         return response
@@ -120,7 +123,9 @@ class Sqlite3Connection:
 
         try:
             cur = self.conn.cursor()
-            cur.executemany(f"INSERT INTO {table} (id_obj, base64) VALUES (?, ?);", to_db)
+            cur.executemany(
+                f"INSERT INTO {table} (id_obj, base64) VALUES (?, ?);", to_db
+            )
             self.conn.commit()
             response = "Done - Rows affected: " + str(cur.rowcount)
         except sqlite3.Error as err:
@@ -170,8 +175,8 @@ def sqlite3_call(database, query):
 
 # if __name__ == '__main__':
 #     db_connection = Sqlite3Connection(r'D:\ai-sightseeing-nto\backend\app\database\sights.db')
-#     #db_connection.insert_obj_csv('final_db.csv')
+#     db_connection.insert_obj_csv('final_db.csv')
 #     #db_connection.insert_kind_csv('kind_db.csv')
 #     #db_connection.insert_photo_csv('photo_db.csv')
 #     #db_connection.insert_obj_photo_csv('obj_photo_db.csv')
-#     db_connection.insert_photo_obj_csv('photo_obj_db.csv')
+#     # db_connection.insert_photo_obj_csv('photo_obj_db.csv')
