@@ -52,10 +52,10 @@ const [line, setLine]= useState()
 useEffect(()=>{
   
 
-  points&&axios.get(`https://api.geoapify.com/v1/routing?waypoints=55.6549932,37.6488095|55.7505412,37.6174782&mode=walk&apiKey=b32c2cf7efe34eb0935c82d17d305172` , '')
+  points&&axios.get(`https://api.geoapify.com/v1/routing?waypoints=${points.map(pair => pair.join(',')).join('|')}&mode=walk&apiKey=b32c2cf7efe34eb0935c82d17d305172` , '')
   .then(response=>{
     setLine(response.data.features[0].geometry.coordinates[0])
-    console.log(response.data.features[0].geometry.coordinates[0],points.map(pair => pair.join(',')).join('|'))
+    console.log(response.data.features[0].geometry.coordinates[0],points.map(pair => pair.join(',')).join('|'),points)
   } ) 
   .catch(function (error) {
   });
@@ -82,7 +82,7 @@ useEffect(()=>{
             groupByCoordinates: false,
           }}
         > 
-          {(!city&&data.length>0)&&data.map(item=>
+          {(!city&&!points&&data.length>0)&&data.map(item=>
             <Placemark
               modules={["geoObject.addon.balloon"]}
               geometry={item.coordinates}
@@ -101,7 +101,7 @@ useEffect(()=>{
               }}
             />
           )}
-          {points.map(item=>
+          {points&&points.map(item=>
             <Placemark
               modules={["geoObject.addon.balloon"]}
               geometry={item.coordinates}
