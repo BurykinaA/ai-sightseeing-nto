@@ -6,6 +6,7 @@ import { Modal, } from 'flowbite-react';
 import axios from 'axios';
 import FileCard from './FileCard';
 import { modalTheme } from '../theme';
+import { URL } from '../const';
 
 
 function TextSearch({objID, disabled}) {
@@ -18,7 +19,7 @@ function TextSearch({objID, disabled}) {
     const handleSubmit=(event)=>{
         event.preventDefault(); // Предотвращаем перезагрузку страницы
         setOpenModal(false)
-        axios.post('api/?', data,'' )
+        axios.post(URL+'api/text_reseach', data,'' )
         .then(response=>{
         console.log(response.data)
         })
