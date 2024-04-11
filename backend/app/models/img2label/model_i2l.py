@@ -28,10 +28,10 @@ test_transform = transforms.Compose(
 )
 
 
-model_ekb = joblib.load("weights/model_ekb.pkl")
-model_nn = joblib.load("weights/model_nn.pkl")
-model_vlad = joblib.load("weights/modelvlad.pkl")
-model_yar = joblib.load("weights/model_yar.pkl")
+model_ekb = joblib.load("app/models/img2label/weights/model_ekb.pkl")
+model_nn = joblib.load("app/models/img2label/weights/model_nn.pkl")
+model_vlad = joblib.load("app/models/img2label/weights/model_vlad.pkl")
+model_yar = joblib.load("app/models/img2label/weights/model_yar.pkl")
 
 idx2label_ekb = {
     0: "Другие места",

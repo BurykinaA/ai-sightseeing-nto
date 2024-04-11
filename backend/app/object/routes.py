@@ -108,7 +108,7 @@ def get_coords_api():
 
 
 @cross_origin()
-@object.post("/api/name_research")
+@object.post("/api/name_reseach")
 def get_text_api():
     try:
         data = request.json["text"]

@@ -11,11 +11,11 @@ from flask_cors import cross_origin
 
 from app.queries.queries import get_object_info
 from app.models.text2img.model_txt2lmg import get_top_n_on_request
-from app.models.img2label import get_lables
+from app.models.img2label.model_i2l import get_lables
 
 
 @cross_origin()
-@object.post("/api/name_research")
+@ml.post("/api/name_research")
 def get_text_api():
     try:
         text = request.json["text"]
@@ -47,11 +47,11 @@ def get_text_api():
 
 
 @cross_origin()
-@object.post("/api/picture_category")
-def get_text_api():
+@ml.post("/api/picture_category")
+def get_label_api():
     try:
-        data = request.json["base64"]
-        city = request.json["city"]
+        data = request.json['pictures'][0]["file"]
+        city = request.json["city"]['id']
         response = get_lables(data, city)
         return make_response(response, 200)
     except Exception as e:
