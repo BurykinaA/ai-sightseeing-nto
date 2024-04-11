@@ -36,6 +36,39 @@ def get_name_info(name):
     return formatted_result
 
 
+def get_object_info_ml(object_id):
+    query = f"""
+            SELECT 
+                o.id, 
+                o.name, 
+                o.city, 
+                o.lon, 
+                o.lat, 
+                o.rate, 
+                o.description,
+                o.kind,
+                (SELECT p.base64 FROM photo_obj p WHERE p.id_obj = o.id LIMIT 1) as base64
+            FROM object o
+            WHERE o.id = '{object_id}'
+    """
+    db = Sqlite3Connection()
+
+    row = db.get(query)
+
+    formatted_result = {
+            "id": row[0],
+            "name": row[1],
+            "description": row[6],
+            "coordinates": [float(row[4]), float(row[3])],
+            "city": row[2],
+            "type": row[7],
+            "rate": row[5],
+            "photo": row[8]
+        }
+
+    return formatted_result[0]
+
+
 def get_object_info(object_id):
     query = f"""
             SELECT 

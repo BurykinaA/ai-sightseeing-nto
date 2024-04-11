@@ -45,10 +45,10 @@ image_latents_yar = joblib.load(
 df = pd.read_csv(r"app\models\text2img\weights\id_conc.csv")
 
 city_model = {
-    "Екатеринбург": [text_latents_name_ekb, image_latents_ekb],
-    "Нижний Новгород": [text_latents_name_nn, image_latents_nn],
-    "Владимир": [text_latents_name_vlad, image_latents_vlad],
-    "Ярославль": [text_latents_name_yar, image_latents_yar],
+    "ekb": [text_latents_name_ekb, image_latents_ekb],
+    "nn": [text_latents_name_nn, image_latents_nn],
+    "vlad": [text_latents_name_vlad, image_latents_vlad],
+    "yar": [text_latents_name_yar, image_latents_yar],
 }
 
 
