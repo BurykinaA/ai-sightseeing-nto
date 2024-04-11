@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import '../App.css'
 import ThemeToggle from './ThemeToggle'
 import { Link } from 'react-router-dom'
@@ -7,18 +7,20 @@ import TextSearch from './TextSearch'
 import PhotoSearch from './PhotoSearch'
 import axios from 'axios'
 import { URL } from '../const'
+import { ObjContext } from '../context'
 // import AppRouted from './router/AppRouted'
 
 function Nav() {
+  const {obj, setObj}= useContext(ObjContext)
   const [data, setData] = useState('')
   const handleSubmit=()=>{
     axios.post(URL+'api/name_reseach', {text:data},'' )
     .then(response=>{
-    console.log(response.data)
-    // setContact([...contact, data])
+      console.log(response.data)
+      setObj(response.data)
     })
     .catch(function (error) {
-    console.log(error);
+      console.log(error);
     });
 }
 

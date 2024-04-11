@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import '../App.css'
 import Card from '../components/Card'
@@ -10,10 +10,12 @@ import TextSearch from '../components/TextSearch';
 import SelectDD from '../components/SelectDD';
 import Filter from '../components/Filter';
 import { URL } from '../const';
+import { ObjContext } from '../context';
 
 // import AppRouted from './router/AppRouted'
 
 function Home() {
+  const {obj, setObj}= useContext(ObjContext)
  
   const [filter, setFilter]= useState({
     owner: [], // Категория правообладателя
@@ -22,7 +24,7 @@ function Home() {
     
   })
   const [fetching, setFetching] = useState(false)
-  const [data, setData]=useState([])
+  
   const [page, setPage] = useState(1);
   
   
@@ -33,7 +35,7 @@ function Home() {
     , '')
     .then(response=>{
       setPage(prevPage => prevPage + 1);
-      setData(prevData => [...prevData, ...response.data]);
+      setObj(prevData => [...prevData, ...response.data]);
       console.log(filter)
       setFetching(false);
     } ) 
@@ -50,13 +52,13 @@ function Home() {
   };
   const getData=()=>{
     setPage(1)
-    setData([])
+    setObj([])
     axios.get(URL+`api/object?_limit=10&page=1`
     +`${filter.owner.length==0?'':'&city='+filter.owner.map((item)=>item.id)}${filter.status.length==0?'':'&rate='+filter.status.map((item)=>item.id)}${filter.type.length==0?'':'&category='+filter.type.map((item)=>item.id)}`
     , '')
     .then(response=>{
       setPage(prevPage => prevPage + 1);
-      setData(response.data);
+      setObj(response.data);
       console.log(filter)
       setFetching(false);
     } ) 
@@ -91,7 +93,7 @@ function Home() {
        
       
         <div className='photoGrid  overflow-auto '>
-          {data.map(item=>
+          {obj.map(item=>
             <Card key={item.id} item={item}/>
           )}
         </div>

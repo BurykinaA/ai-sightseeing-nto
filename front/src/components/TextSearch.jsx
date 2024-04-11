@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useState } from 'react';
 
 import { Modal, } from 'flowbite-react';
@@ -7,10 +7,11 @@ import axios from 'axios';
 import FileCard from './FileCard';
 import { modalTheme } from '../theme';
 import { URL } from '../const';
+import { ObjContext } from '../context';
 
 
-function TextSearch({objID, disabled}) {
-  
+function TextSearch({objID, disabled, setObjects}) {
+  const {obj, setObj}= useContext(ObjContext)
   const [openModal, setOpenModal] = useState(false);
   const [data, setData]=  useState({text:''})
 
@@ -21,7 +22,8 @@ function TextSearch({objID, disabled}) {
         setOpenModal(false)
         axios.post(URL+'api/text_reseach', data,'' )
         .then(response=>{
-        console.log(response.data)
+          console.log(response.data)
+          setObj(response.data)
         })
         .catch(function (error) {
         console.log(error);

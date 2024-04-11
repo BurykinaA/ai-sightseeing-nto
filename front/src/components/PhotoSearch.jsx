@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useState } from 'react';
 
 import { Modal, } from 'flowbite-react';
@@ -8,9 +8,11 @@ import FileCard from './FileCard';
 import { modalTheme } from '../theme';
 import SelectDD from './SelectDD';
 import { URL } from '../const';
+import { ObjContext } from '../context';
 
 
 function PhotoSearch({objID, disabled}) {
+  const {obj, setObj}= useContext(ObjContext)
   
   const [openModal, setOpenModal] = useState(false);
   const [data, setData]=  useState({
@@ -67,6 +69,7 @@ function PhotoSearch({objID, disabled}) {
         axios.post(URL+path, {text:data.comment, pictures:pictures, city: data.city[0]},'' )
         .then(response=>{
         console.log(response.data)
+        setObj(response.data)
         // setContact([...contact, data])
         })
         .catch(function (error) {
