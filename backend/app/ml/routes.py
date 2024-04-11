@@ -9,7 +9,7 @@ from flask_cors import cross_origin
 # import io
 # import cv2
 
-from app.queries.queries import get_object_info
+from app.queries.queries import get_object_info_ml
 from app.models.text2img.model_txt2lmg import (
     get_top_n_on_request,
     get_top_n_on_image_request,
@@ -22,10 +22,10 @@ from app.models.img2label.model_i2l import get_lables
 def get_text_api():
     try:
         text = request.json["text"]
-        city = request.json["city"]
+        city = request.json["city"][0]['id']
 
         response = get_top_n_on_request(text, city)
-        ans = [get_object_info(i[0]) for i in response]
+        ans = [get_object_info_ml(i[0]) for i in response]
 
         for i in range(len(ans)):
             ans[i]["score"] = str(float(response[i][1]))
@@ -41,11 +41,11 @@ def get_text_api():
 def get_pict_api():
     try:
         data = request.json["pictures"][0]["file"]
-        city = request.json["city"]["id"]
+        city = request.json["city"][0]['id']
 
         response = get_top_n_on_image_request(data, city)
 
-        ans = [get_object_info(i[0]) for i in response]
+        ans = [get_object_info_ml(i[0]) for i in response]
 
         for i in range(len(ans)):
             ans[i]["score"] = str(float(response[i][1]))

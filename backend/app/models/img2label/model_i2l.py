@@ -77,7 +77,7 @@ idx2label_yaroslavl = {
 models = {
     "ekb": model_ekb,
     "nn": model_nn,
-    "vald": model_vlad,
+    "vlad": model_vlad,
     "yar": model_yar,
 }
 
@@ -90,25 +90,18 @@ city_decode = {
 
 
 def get_lables(img, city):
-    print(3)
-
     model = models[city]
     img = Image.open(BytesIO(base64.b64decode(img))).convert("RGB")
     img = test_transform(img).unsqueeze(0)
     ans = model(img)
 
-    print(2)
-
-    top_k = 5
+    top_k = 3
     top_k_values, top_k_indices = torch.topk(torch.sigmoid(ans), top_k, dim=1)
     top_k_labels = [city_decode[city][idx.item()] for idx in top_k_indices[0]]
-
-    print(1)
 
     results = [
         {"label": label, "score": str(float(score))}
         for label, score in zip(top_k_labels, list(top_k_values[0].detach().numpy()))
     ]
-
 
     return results
