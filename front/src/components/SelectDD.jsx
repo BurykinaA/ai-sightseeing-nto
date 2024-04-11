@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 
 
-function SelectDD({value, name, handleFilterChangeNew, type,filter, opened, setOpened}) {
+function SelectDD({absolute, value, name, handleFilterChangeNew, type,filter, opened, oneAnsw}) {
   const item =[]
   const [selected, setSelected]= useState([])
   useEffect(()=>{
@@ -36,7 +36,7 @@ function SelectDD({value, name, handleFilterChangeNew, type,filter, opened, setO
 
 
   return (
-    <div ref={buttonRef} className={open?' rounded-t-lg bg-white  w-[368px] relative':" rounded-lg bg-white border-2 w-[368px] relative"}>
+    <div ref={buttonRef} className={open?' rounded-t-lg bg-white  max-w-[368px] relative':" rounded-lg bg-white border-2 max-w-[368px] relative"}>
     
       <div onClick={()=>value.filter(item => selected.some(selectedItem => selectedItem.id == item.id)).length==0&&setOpen(!open)} className={(open&&value.filter(item => !selected.some(selectedItem => selectedItem.id == item.id)).length>0)?' flex items-center w-full border-2 border-b-0 border-indigo-300 rounded-t-lg':"flex items-center w-full"}>
         <div className=" min-h-10  px-2 py-2  justify-start items-center gap-1 inline-flex ">
@@ -81,14 +81,14 @@ function SelectDD({value, name, handleFilterChangeNew, type,filter, opened, setO
         </div>
       </div>
       {(open&&value.filter(item => !selected.some(selectedItem => selectedItem.id == item.id)).length>0)&&
-        <div className='w-[368px]  z-10 border-2  border-indigo-300 rounded-b-lg'>
+        <div className={(absolute==true)?'absolute w-full z-10 border-2  border-indigo-300 rounded-b-lg':' w-full z-10 border-2  border-indigo-300 rounded-b-lg'} onClick={()=>absolute&&setOpen(!open)}>
           <div className=" h-[1px] self-auto px-[16px] bg-white"/>
           <div className="bg-white text-sm  border-0 text-left max-h-[180px] overflow-auto rounded-b-lg">
          
           {(value.filter(item => !selected.some(selectedItem => selectedItem.id == item.id)))&& 
           value.filter(item => !selected.some(selectedItem => selectedItem.id == item.id)).map(item=>
              
-             <div onClick={(e)=>{ !selected.some(obj => obj.id === item.id)&&(setSelected([...selected, {id:item.id, value:item.value, coordinates:item.coordinates}]))}} key={item.id} value={item.value} className="border-b px-2 min-h-11  py-3 justify-start items-center gap-1 inline-flex hover:bg-slate-100">
+             <div onClick={(e)=>{ !selected.some(obj => obj.id === item.id)&&(oneAnsw?setSelected( [{id:item.id, value:item.value, coordinates:item.coordinates}]):setSelected([...selected, {id:item.id, value:item.value, coordinates:item.coordinates}]))}} key={item.id} value={item.value} className="border-b px-2 min-h-11  py-3 justify-start items-center gap-1 inline-flex hover:bg-slate-100">
               <div className="  border-slate-200 text-slate-900 text-sm font-normal   leading-tight">{item.value}</div>
             </div>
                 )}

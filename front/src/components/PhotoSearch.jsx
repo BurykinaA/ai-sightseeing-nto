@@ -6,6 +6,8 @@ import { Modal, } from 'flowbite-react';
 import axios from 'axios';
 import FileCard from './FileCard';
 import { modalTheme } from '../theme';
+import SelectDD from './SelectDD';
+import { URL } from '../const';
 
 
 function PhotoSearch({objID, disabled}) {
@@ -13,7 +15,9 @@ function PhotoSearch({objID, disabled}) {
   const [openModal, setOpenModal] = useState(false);
   const [data, setData]=  useState({
     comment:'',
-    pic:''
+    pic:'',
+    city:'',
+    type: ''
   })
   // const [data, setData] = useState([]);
 
@@ -58,7 +62,9 @@ function PhotoSearch({objID, disabled}) {
     const handleSubmit=(event)=>{
         event.preventDefault(); // Предотвращаем перезагрузку страницы
         setOpenModal(false)
-        axios.post('api/?', {taxt:data.comment, pictures:pictures},'' )
+        
+        const path=data.type[0].id=='search'?'api/picture_reseach':'api/picture_category'
+        axios.post(URL+path, {text:data.comment, pictures:pictures, city: data.city[0]},'' )
         .then(response=>{
         console.log(response.data)
         // setContact([...contact, data])
@@ -68,6 +74,52 @@ function PhotoSearch({objID, disabled}) {
         });
     }
   useEffect(()=>{console.log(data)},[data])
+
+  const handleFilterChangeNew = (data, type) => {
+    var dataa ={[type]: data}
+    
+    setData(prevState => ({
+      ...prevState,
+      ...dataa
+    }));
+  };
+  const stat={
+    "owner": {
+        "values": [
+            {
+                "id": "Владимир",
+                "value": "Владимир",
+                "coordinates": [56.129042, 40.407215],
+            },
+            {
+                "id": "Ярославль",
+                "value": "Ярославль",
+                "coordinates": [57.626074, 39.884470]
+
+            },
+            {
+                "id":  "Нижний Новгород",
+                "value": "Нижний Новгород",
+                "coordinates": [56.326887, 44.005986]
+            },
+            {
+                "id": "Екатеринбург",
+                "value": "Екатеринбург",
+                "coordinates": [56.838011, 60.597465]
+            },
+            
+        ]
+    },
+   }
+   useEffect(()=>{
+    setData({
+      comment:'',
+      pic:'',
+      city:'',
+      type: ''
+    }), setPictures([])
+   },[openModal])
+
   return (
     <>
       <button disabled={disabled} onClick={() => setOpenModal(true)} className='min-w-max blueButton'>
@@ -83,7 +135,17 @@ function PhotoSearch({objID, disabled}) {
               <div className="w-[564px] h-px bg-indigo-300 rounded-[1px]" />
           </div>
           <form onSubmit={handleSubmit} className='flex flex-col gap-[16px]'>
-          
+            <div className='flex items-center gap-2'>
+              <div>
+                Тип запроса*
+                <SelectDD absolute={true} oneAnsw={true} opened={false}  filter={data.city}  handleFilterChangeNew={handleFilterChangeNew} name='Город' type='type' value={[{id:'category', value: 'Определить категории по зображению'}, {id:'search', value: 'Найти похожие изображения'}]} />
+              </div>
+              <div>
+                Город*
+                <SelectDD absolute={true} oneAnsw={true} opened={false}  filter={data.city}  handleFilterChangeNew={handleFilterChangeNew} name='Город' type='city' value={stat&&stat.owner.values} />
+              </div>
+            </div>
+            
 
             <div class="flex items-center justify-center w-full">
                 <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-max border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 ">
@@ -93,7 +155,7 @@ function PhotoSearch({objID, disabled}) {
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <path d="M15.0002 6.99996L8.50019 13.5C8.10237 13.8978 7.87887 14.4374 7.87887 15C7.87887 15.5626 8.10237 16.1021 8.50019 16.5C8.89802 16.8978 9.43758 17.1213 10.0002 17.1213C10.5628 17.1213 11.1024 16.8978 11.5002 16.5L18.0002 9.99996C18.7958 9.20432 19.2428 8.12518 19.2428 6.99996C19.2428 5.87475 18.7958 4.79561 18.0002 3.99996C17.2045 3.20432 16.1254 2.75732 15.0002 2.75732C13.875 2.75732 12.7958 3.20432 12.0002 3.99996L5.50019 10.5C4.30672 11.6934 3.63623 13.3121 3.63623 15C3.63623 16.6878 4.30672 18.3065 5.50019 19.5C6.69367 20.6934 8.31236 21.3639 10.0002 21.3639C11.688 21.3639 13.3067 20.6934 14.5002 19.5L21.0002 13" stroke="#1D5DEB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            Выбрать файл
+                            Выбрать файл*
                         </p>
                     </div>
                     <input required accept="image/*" id="dropzone-file" type="file" class="hidden" multiple onChange={handleFileChange}/>
@@ -130,6 +192,7 @@ function PhotoSearch({objID, disabled}) {
             <button 
               type='submit' 
               // onClick={() => setOpenModal(false)} 
+              disabled={data.type==''||data.city==''||pictures.length==0}
               className='blueButton'
               placeholder='pup'
             >

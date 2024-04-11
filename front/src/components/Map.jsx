@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import '../App.css'
 import { Link } from 'react-router-dom'
-import { YMaps, Map, Placemark, Polygon, RouteButton, GeolocationControl, RoutePanel, Clusterer, ListBox, ListBoxItem } from '@pbe/react-yandex-maps';
-import SelectDD from './SelectDD';
+import { YMaps, Map, Placemark, GeolocationControl, Clusterer, FullscreenControl } from '@pbe/react-yandex-maps';
+import { URL } from '../const';
+import axios from 'axios';
 
-function CustomMap({data, filter, city}) {
+function CustomMap({all, filter, city, obj}) {
 
   const [zoom, setZoom] = useState(8)
   const [center, setCenter] = useState([55.75, 37.57]); // Изначальный центр карты
@@ -24,7 +25,19 @@ function CustomMap({data, filter, city}) {
 
     setCenter([avgLatitude, avgLongitude]);
 };
+const [data, setData]= useState([])
+useEffect(()=>{
+  axios.get(URL+'api/object_coordinates', '')
+  .then(response=>{
+    setData(response.data)
+    
+  } ) 
+  .catch(function (error) {
+    console.log(error);
+  });
 
+  
+},[all])
 
 
 useEffect(() => {
@@ -33,7 +46,7 @@ useEffect(() => {
 }, [filter]);
 
 useEffect(() => {
-  city&&setCenter(city)
+  city&&(setCenter(city),setZoom(15))
 }, [city]);
 
 
@@ -41,13 +54,11 @@ useEffect(() => {
     
     <div className='min-w-[400px]  w-[400px] h-max bg-white text-gray-900 rounded-xl shadow-md p-[10px] flex flex-col gap-4'>
     <p className='text-2xl font-bold'>Карта</p>
-
-      {/* <SelectDD opened={false}  filter={filter.owner}  handleFilterChangeNew={handleFilterChangeNew} name='Город' type='owner' value={stats&&stats.values} /> */}
     <YMaps query={{ apikey: 'a934cf94-8e4f-4733-a09a-71b68cd2795b' }}> 
       <Map 
         height= '380px' width='380px' state={{ center: center, zoom: zoom}} 
       >
-        <RouteButton options={{ float: "right" }} />
+        <FullscreenControl />
         <GeolocationControl options={{ float: "left" }} />
         <Clusterer
           options={{
@@ -55,7 +66,16 @@ useEffect(() => {
             groupByCoordinates: false,
           }}
         > 
-          {data.length>0&&data.map(item=>
+          {(!city&&data.length>0)&&data.map(item=>
+            <Placemark
+              modules={["geoObject.addon.balloon"]}
+              geometry={item.coordinates}
+              properties={{
+                balloonContentBody: `<a target='_blank' href='/object/${item.id}'>${item.name}</a>`
+              }}
+            />
+          )}
+          {(city)&&obj.map(item=>
             <Placemark
               modules={["geoObject.addon.balloon"]}
               geometry={item.coordinates}

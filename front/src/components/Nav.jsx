@@ -5,10 +5,22 @@ import { Link } from 'react-router-dom'
 import AddAlbum from './PhotoSearch'
 import TextSearch from './TextSearch'
 import PhotoSearch from './PhotoSearch'
+import axios from 'axios'
+import { URL } from '../const'
 // import AppRouted from './router/AppRouted'
 
 function Nav() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState('')
+  const handleSubmit=()=>{
+    axios.post(URL+'api/name_reseach', {text:data},'' )
+    .then(response=>{
+    console.log(response.data)
+    // setContact([...contact, data])
+    })
+    .catch(function (error) {
+    console.log(error);
+    });
+}
 
   return (
     
@@ -18,8 +30,8 @@ function Nav() {
 </svg></Link> 
        <Link to='/' className='text-black text-2xl'>Экскурсии</Link> 
        <div className='flex gap-4 '>
-        <input className="focus:outline-none bg-white border shadow rounded-lg h-10 w-full outline-0 px-2 py-2.5" placeholder="Поиск по названию" />
-        <button className='blueButton mr-6'>Поиск</button>
+        <input className="focus:outline-none bg-white border shadow rounded-lg h-10 w-full outline-0 px-2 py-2.5" placeholder="Поиск по названию" value={data} onChange={(e)=>setData(e.target.value)}/>
+        <button className='blueButton mr-6' onClick={handleSubmit}>Поиск</button>
         <PhotoSearch/>
         <TextSearch/>
         </div>

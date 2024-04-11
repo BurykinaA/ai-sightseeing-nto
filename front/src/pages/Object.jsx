@@ -7,6 +7,7 @@ import MapWithRoute from '../components/MapWithRoute';
 import CustomMap from '../components/Map';
 import { useParams } from 'react-router-dom';
 import { URL } from '../const';
+import Rate from '../components/Rate';
 // import AppRouted from './router/AppRouted'
 
 function Object() {
@@ -14,7 +15,7 @@ function Object() {
   const [data, setData]=useState([])
   const [obj, setObj]=useState({})
   useEffect(()=>{
-    axios.get(URL+'/api/object/'+params.id, '')
+    axios.get(URL+'api/object/'+params.id, '')
     .then(response=>{
       setObj(response.data)
       
@@ -32,25 +33,34 @@ function Object() {
       console.log(error);
     });
   },[params.id])
+  useEffect(()=>{console.log(obj, obj.photo    )},[obj])
 
   return (
     <div className='flex flex-col gap-[20px] text-left pb-4' >
 
-      <div className='flex gap-[20px]'>
+      <div className='flex flex-col gap-[20px]'>
 
-        <div className='flex flex-col gap-[20px] w-max'>
-          <img className='w-[400px] h-[400px] rounded-lg object-cover shadow-md' src={obj.url}/>
-          <CustomMap data={[obj]} city={obj.coordinates}/>
+        <div className='flex gap-[20px] w-max'>
+          
+          
+          
+          <CustomMap obj={[obj]} city={obj.coordinates}/>
+          <div className='flex flex-col w-full '>
+          <p className='text-3xl font-bold'> {obj.name}</p>
+          <p className='text-xl '>{obj.description}</p>
+    <Rate item={obj.rate}/>
         </div>
-        <div className='flex flex-col w-full '>
-          <p className='text-3xl font-bold'> {obj.id}</p>
-          <p className='text-xl '>{obj.title}</p>
-
         </div>
+       
+        <div className='flex items-center overflow-auto  gap-4'>
+              {(obj.photo&&obj.photo.length>0)&& obj.photo.map(item=>
+                <img className='w-[400px] h-[400px] rounded-lg object-cover shadow-md' src={'data:image/jpg;base64,'+ item}/>
+              )}
+          </div>
       </div>
       <div>
-        <p className='text-3xl font-bold mb-4'> Похожее</p>
-        <div className='overflow-auto flex gap-4 h-[600px] items-center'>
+        <p className='text-3xl font-bold'> Похожее</p>
+        <div className='parent overflow-x-auto overflow-y-visible flex gap-4 items-center h-auto'>
           {data.map(item=>
             <Card key={item.id} item={item}/>
           )}
