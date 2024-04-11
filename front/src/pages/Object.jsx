@@ -45,9 +45,10 @@ function Object() {
           
           
           <CustomMap obj={[obj]} city={obj.coordinates}/>
-          <div className='flex flex-col w-full '>
+          <div className='flex flex-col w-full gap-4'>
           <p className='text-3xl font-bold'> {obj.name}</p>
           <p className='text-xl '>{obj.description}</p>
+          <p className='text-xl '>{obj.type}</p>
     <Rate item={obj.rate}/>
         </div>
         </div>

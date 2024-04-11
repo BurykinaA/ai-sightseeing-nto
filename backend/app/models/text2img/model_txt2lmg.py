@@ -29,20 +29,33 @@ text_latents_name_nn = joblib.load(
 image_latents_nn = joblib.load(r"app\models\text2img\weights\nn_image_latents.pkl")
 
 text_latents_name_vlad = joblib.load(
-    r"app\models\text2img\weights\vladimir_text_latents_name.pkl"
+    r"app\models\text2img\weights\vlad_text_latents_name.pkl"
 )
 image_latents_vlad = joblib.load(
-    r"app\models\text2img\weights\vladimir_image_latents.pkl"
+    r"app\models\text2img\weights\vlad_image_latents.pkl"
 )
 
 text_latents_name_yar = joblib.load(
-    r"app\models\text2img\weights\yaroslavl_text_latents_name.pkl"
+    r"app\models\text2img\weights\yar_text_latents_name.pkl"
 )
 image_latents_yar = joblib.load(
-    r"app\models\text2img\weights\yaroslavl_image_latents.pkl"
+    r"app\models\text2img\weights\yar_image_latents.pkl"
 )
 
-df = pd.read_csv(r"app\models\text2img\weights\id_conc.csv")
+# df_mapping = {
+#     'ekb' : r"app\models\text2img\weights\ekb.csv",
+#     'vlad': r"app\models\text2img\weights\vlad.csv",
+#     'nn': r"app\models\text2img\weights\nn.csv",
+#     'yar' : r"app\models\text2img\weights\yar.csv"
+# }
+
+# df = None
+
+df_ekb = pd.read_csv(r"app\models\text2img\weights\ekb.csv")
+df_vlad = pd.read_csv(r"app\models\text2img\weights\vlad.csv")
+df_nn = pd.read_csv(r"app\models\text2img\weights\nn.csv")
+df_yar = pd.read_csv(r"app\models\text2img\weights\yar.csv")
+
 
 city_model = {
     "ekb": [text_latents_name_ekb, image_latents_ekb],
@@ -100,7 +113,17 @@ def get_top_n_objects(df, indices_sorted, cosine_sim, top_n=5):
     return top_data
 
 
-def get_top_n_on_request(request, city, df=df, top_n=7):
+def get_top_n_on_request(request, city, top_n=7):
+    if city == 'ekb':
+        df = df_ekb.copy()
+    elif city == 'nn':
+        df = df_nn.copy()
+    elif city == 'vlad':
+        df = df_vlad.copy()
+    elif city == 'yar':
+        df = df_yar.copy()
+
+
     text_latents_name, image_latents = city_model[city]
 
     text_latents_name = text_latents_name.cpu()
@@ -145,7 +168,17 @@ def get_image_request_embedding(request):
     return F.normalize(text_latents, p=2, dim=-1)
 
 
-def get_top_n_on_image_request(request, city, df=df, top_n=7):
+def get_top_n_on_image_request(request, city, top_n=7):
+    if city == 'ekb':
+        df = df_ekb.copy()
+    elif city == 'nn':
+        df = df_nn.copy()
+    elif city == 'vlad':
+        df = df_vlad.copy()
+    elif city == 'yar':
+        df = df_yar.copy()
+
+
     text_latents_name, image_latents = city_model[city]
 
     request = Image.open(BytesIO(base64.b64decode(request))).convert("RGB")

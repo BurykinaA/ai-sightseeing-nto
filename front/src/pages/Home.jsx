@@ -104,7 +104,8 @@ function Home() {
 
       <div className='relative w-[400px] min-w-[400px] text-left  '>
         <div className='fixed w-max flex flex-col gap-4 pr-2'>
-          <CustomMap all={true} filter={filter} points={(obj[0]&&obj[0].score)&& obj.map(item => item.coordinates) }/>
+          {console.log((obj[0]&&obj[0].label&&obj[0].name)&& obj.map(item => item.coordinates) )}
+          <CustomMap all={true} filter={filter} points={(obj[0]&&obj[0].label&&obj[0].name)&& obj.map(item => item.coordinates) }/>
           <Filter filter={filter} setFilter={setFilter} handleFilterChangeNew={handleFilterChangeNew} getData={getData}/>
         
 

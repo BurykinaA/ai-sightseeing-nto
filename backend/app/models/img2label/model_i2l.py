@@ -95,7 +95,7 @@ def get_lables(img, city):
     img = test_transform(img).unsqueeze(0)
     ans = model(img)
 
-    top_k = 3
+    top_k = 9
     top_k_values, top_k_indices = torch.topk(torch.sigmoid(ans), top_k, dim=1)
     top_k_labels = [city_decode[city][idx.item()] for idx in top_k_indices[0]]
 

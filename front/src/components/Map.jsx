@@ -9,7 +9,7 @@ function CustomMap({all, filter, city, obj, points}) {
 
   const [zoom, setZoom] = useState(8)
   const [center, setCenter] = useState([55.75, 37.57]); // Изначальный центр карты
-
+useEffect(()=>{setLine()},[ city, obj, points, all])
   const handleCityChange = (cities) => {
     if (cities.length == 0) {
         setCenter([56.326887, 44.005986]); // По умолчанию Москва
@@ -49,19 +49,57 @@ useEffect(() => {
   city&&(setCenter(city),setZoom(15))
 }, [city]);
 const [line, setLine]= useState()
-useEffect(()=>{
-  
 
-  points&&axios.get(`https://api.geoapify.com/v1/routing?waypoints=${points.map(pair => pair.join(',')).join('|')}&mode=walk&apiKey=b32c2cf7efe34eb0935c82d17d305172` , '')
+useEffect(()=>{
+  if(points){
+  const route=findOptimalRoute(points)
+  console.log(route)
+  route&&axios.get(`https://api.geoapify.com/v1/routing?waypoints=${route.map(pair => pair.join(',')).join('|')}&mode=walk&apiKey=b32c2cf7efe34eb0935c82d17d305172` , '')
   .then(response=>{
-    setLine(response.data.features[0].geometry.coordinates[0])
-    console.log(response.data.features[0].geometry.coordinates[0],points.map(pair => pair.join(',')).join('|'),points)
+    setLine(response.data.features[0].geometry.coordinates)
+    console.log(response.data.features[0].geometry.coordinates,points.map(pair => pair.join(',')).join('|'),points)
   } ) 
   .catch(function (error) {
   });
-  
+  }
 
 },[points])
+
+function distance(point1, point2) {
+  const dx = point1[0] - point2[0];
+  const dy = point1[1] - point2[1];
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+// Функция нахождения ближайшей непосещенной точки к заданной
+function findNearest(point, points, visited) {
+  let minDistance = Infinity;
+  let nearestPoint = null;
+  for (let i = 0; i < points.length; i++) {
+      if (!visited[i]) {
+          const d = distance(point, points[i]);
+          if (d < minDistance) {
+              minDistance = d;
+              nearestPoint = i;
+          }
+      }
+  }
+  return nearestPoint;
+}
+
+function findOptimalRoute(points) {
+  const n = points.length;
+  const visited = new Array(n).fill(false);
+  const route = [points[0]]; // Начинаем с первой точки
+  visited[0] = true;
+  for (let i = 1; i < n; i++) {
+      const lastPoint = route[route.length - 1];
+      const nearestPointIndex = findNearest(lastPoint, points, visited);
+      route.push(points[nearestPointIndex]);
+      visited[nearestPointIndex] = true;
+  }
+  return route;
+}
 
   return (
     
@@ -73,9 +111,9 @@ useEffect(()=>{
       >
         <FullscreenControl />
         <GeolocationControl options={{ float: "left" }} />
-        <Polyline
-            geometry={line&&line.map(point => [point[1], point[0]])}/>
-            
+        {line&&line.map(li=><Polyline
+            geometry={li.map(point => [point[1], point[0]])}/>
+           )} 
         <Clusterer
           options={{
             preset: "islands#invertedVioletClusterIcons",
@@ -101,14 +139,14 @@ useEffect(()=>{
               }}
             />
           )}
+          {console.log(points)}
           {points&&points.map(item=>
             <Placemark
               modules={["geoObject.addon.balloon"]}
-              geometry={item.coordinates}
-              properties={{
-                balloonContentBody: `<a target='_blank' href='/object/${item.id}'>${item.name}</a>`
-              }}
+              geometry={item}
+             
             />
+            // console.log(item)
           )}
         </Clusterer>
       </Map>
