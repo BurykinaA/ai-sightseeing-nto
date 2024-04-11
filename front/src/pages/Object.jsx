@@ -24,7 +24,7 @@ function Object() {
       console.log(error);
     });
 
-    axios.get('https://jsonplaceholder.typicode.com/photos?_limit=5', '')
+    axios.get(URL+'api/object/'+params.id+'/same', '')
     .then(response=>{
       setData(response.data)
       

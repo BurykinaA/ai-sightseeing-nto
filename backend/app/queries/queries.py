@@ -1,6 +1,28 @@
 from app.connection.sqllite3_connection import Sqlite3Connection
 
 
+def get_name_by_id(id):
+    query = f"""
+            SELECT
+                o.city, 
+                (SELECT p.base64 FROM photo_obj p WHERE p.id_obj = o.id LIMIT 1) as base64
+            FROM object o
+            WHERE o.id = '{id}'
+    """
+    db = Sqlite3Connection()
+
+    result = db.get(query)
+
+    formatted_result = [
+        {
+            "city": row[0],
+            "photo": row[1]
+        }
+        for row in result
+    ]
+
+    return formatted_result[0]
+
 def get_name_info(name):
     query = f"""
             SELECT 

@@ -14,8 +14,11 @@ from app.queries.queries import (
     get_filtered_objects_info,
     get_coords,
     get_name_info,
+    get_name_by_id,
+    get_object_info_ml,
 )
 
+from app.models.text2img.model_txt2lmg import get_top_n_on_image_request
 
 type = [
     {"id": 0, "value": "Музеи и памятники"},
@@ -76,6 +79,38 @@ def get_objects():
 
 
 @cross_origin()
+@object.get("/api/object/<id>/same")
+def get_object_by_id_same(id):
+    try:
+        data = get_name_by_id(id)
+
+        city = data['city']
+        img = data['photo']
+
+        city_mapping = {
+            'Екатеринбург': 'ekb',
+            'Нижний Новгород': 'nn',
+            'Владимир': 'vlad',
+            'Ярославль': 'yar',
+        }
+
+        response = get_top_n_on_image_request(img, city_mapping[city])
+
+        print("response")
+
+        ans = [get_object_info_ml(i[0]) for i in response]
+
+        # for i in range(len(ans)):
+        #     ans[i]["score"] = str(float(response[i][1]))
+        #     ans[i]["label"] = ans[i]['name']
+        
+        return make_response(ans, 200)
+    except Exception as e:
+        print(e)
+        return make_response({"error": "Internal Server Error"}, 500)
+
+
+@cross_origin()
 @object.get("/api/object/<id>")
 def get_object_by_id(id):
     try:
@@ -113,6 +148,10 @@ def get_text_api():
     try:
         data = request.json["text"]
         response = get_name_info(data)
+
+        for i in range(len(response)):
+            response[i]["label"] = response[i]['name']
+
         return make_response(response, 200)
     except Exception as e:
         print(e)
