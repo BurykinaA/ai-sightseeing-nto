@@ -11,3 +11,4 @@ data/
 *.db
 *.pkl
 cache_ruclip/
+.DS_Store
