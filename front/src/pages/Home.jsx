@@ -108,7 +108,7 @@ function Home() {
           <Filter filter={filter} setFilter={setFilter} handleFilterChangeNew={handleFilterChangeNew} getData={getData}/>
         
 
-
+              {console.log(obj.map(item => item.label)?obj.map(item => item.label): obj.map(item => item.name))}
          {obj[0]&&obj[0].score&& <BarChart
             xAxis={[{ scaleType: 'band', data: obj.map(item => item.label)?obj.map(item => item.label): obj.map(item => item.name) }]}
             series={[{ data: obj.map(item => item.score)}]}
