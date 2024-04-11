@@ -6,8 +6,11 @@ from io import BytesIO
 import numpy as np
 import pandas as pd
 import joblib
+import os
+os.environ['CURL_CA_BUNDLE'] = ''
 
-model, processor = ruclip.load("ruclip-vit-base-patch32-384", device="cpu")
+
+model, processor = ruclip.load("ruclip-vit-base-patch32-384", device="cpu", cache_dir="app/cache_ruclip")
 templates = ["{}", "это {}", "на фото {}"]
 predictor = ruclip.Predictor(model, processor, "cpu", bs=8, templates=templates)
 

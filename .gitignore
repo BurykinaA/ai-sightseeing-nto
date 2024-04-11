@@ -10,3 +10,4 @@ data/
 *.csv
 *.db
 *.pkl
+cache_ruclip/
