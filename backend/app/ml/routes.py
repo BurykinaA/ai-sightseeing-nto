@@ -1,4 +1,4 @@
-from app.object import object
+from app.ml import ml
 from flask import request
 from flask import current_app as app, make_response, jsonify, send_file
 from flask_cors import cross_origin
@@ -32,18 +32,18 @@ def get_text_api():
         return make_response({"error": "Internal Server Error"}, 500)
 
 
-@cross_origin()
-@object.post("/api/picture_reseach")
-def get_text_api():
-    try:
-        text = request.json["text"]
-        data = request.json["base64"]
-        response = ML_DANA(data, text)
-        response = get_object_info(response)
-        return make_response(response, 200)
-    except Exception as e:
-        print(e)
-        return make_response({"error": "Internal Server Error"}, 500)
+# @cross_origin()
+# @object.post("/api/picture_reseach")
+# def get_text_api():
+#     try:
+#         text = request.json["text"]
+#         data = request.json["base64"]
+#         response = ML_DANA(data, text)
+#         response = get_object_info(response)
+#         return make_response(response, 200)
+#     except Exception as e:
+#         print(e)
+#         return make_response({"error": "Internal Server Error"}, 500)
 
 
 @cross_origin()
