@@ -29,7 +29,7 @@ def get_text_api():
 
         for i in range(len(ans)):
             ans[i]["score"] = str(float(response[i][1]))
-
+            ans[i]["lable"] = ans[i]['name']
 
         return make_response(ans, 200)
     except Exception as e:
@@ -41,8 +41,13 @@ def get_text_api():
 @ml.post("/api/picture_reseach")
 def get_pict_api():
     try:
+        print('AAAAAAA')
         data = request.json["pictures"][0]["file"]
+        print('ddddd')
         city = request.json["city"][0]['id']
+        print('sfvdvfv')
+
+        print(city)
 
         response = get_top_n_on_image_request(data, city)
 
@@ -50,6 +55,7 @@ def get_pict_api():
 
         for i in range(len(ans)):
             ans[i]["score"] = str(float(response[i][1]))
+            ans[i]["lable"] = ans[i]['name']
 
         return make_response(response, 200)
     except Exception as e:
