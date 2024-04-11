@@ -141,7 +141,7 @@ function PhotoSearch({objID, disabled}) {
             <div className='flex items-center gap-2'>
               <div>
                 Тип запроса*
-                <SelectDD absolute={true} oneAnsw={true} opened={false}  filter={data.city}  handleFilterChangeNew={handleFilterChangeNew} name='Город' type='type' value={[{id:'category', value: 'Определить категории по зображению'}, {id:'search', value: 'Найти похожие изображения'}]} />
+                <SelectDD absolute={true} oneAnsw={true} opened={false}  filter={data.city}  handleFilterChangeNew={handleFilterChangeNew} name='Тип запроса' type='type' value={[{id:'category', value: 'Определить категории по зображению'}, {id:'search', value: 'Найти похожие изображения'}]} />
               </div>
               <div>
                 Город*

@@ -13,8 +13,8 @@ function Card({item}) {
        <div className='h-full flex flex-col items-start gap-2'>
         <p className='text-xl text-left font-semibold'>{item.name}</p>
         <p className=' text-left'>{item.description}</p>
-        {item.label&&<p className='text-3xl mb-2'>Категория :{item.label}</p>}
-        {item.score&&<p className='text-3xl'>Score: {item.score}</p>}
+        {(!item.name&&item.label)&&<p className='text-3xl '>Категория :{item.label}</p>}
+        {item.score&&<p className='text-3xl my-2'>Score: {item.score}</p>}
        
         <div className='flex items-center gap-2'>
         {item.rate&&<><b className='font-semibold'> Важность достопримечательности: </b><Rate item={item.rate}/></>}
