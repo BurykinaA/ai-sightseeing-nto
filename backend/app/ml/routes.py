@@ -42,6 +42,7 @@ def get_pict_api():
     try:
         data = request.json["pictures"][0]["file"]
         city = request.json["city"]["id"]
+
         response = get_top_n_on_image_request(data, city)
 
         ans = [get_object_info(i[0]) for i in response]
@@ -61,6 +62,7 @@ def get_label_api():
     try:
         data = request.json["pictures"][0]["file"]
         city = request.json["city"]["id"]
+
         response = get_lables(data, city)
         return make_response(response, 200)
     except Exception as e:
