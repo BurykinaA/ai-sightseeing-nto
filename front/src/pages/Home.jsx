@@ -32,7 +32,7 @@ function Home() {
   
 
   useEffect(() => {
-    fetching&&axios.get(URL+`api/object?_limit=10&page=${page}`
+    (fetching&&((obj[0]&&!obj[0].score)||!obj[0]))&&axios.get(URL+`api/object?_limit=10&page=${page}`
     +`${filter.owner.length==0?'':'&city='+filter.owner.map((item)=>item.id)}${filter.status.length==0?'':'&rate='+filter.status.map((item)=>item.id)}${filter.type.length==0?'':'&category='+filter.type.map((item)=>item.id)}`
     , '')
     .then(response=>{
