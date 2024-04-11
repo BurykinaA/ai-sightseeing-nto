@@ -23,12 +23,13 @@ def get_text_api():
     try:
         text = request.json["text"]
         city = request.json["city"][0]['id']
-
         response = get_top_n_on_request(text, city)
+    
         ans = [get_object_info_ml(i[0]) for i in response]
 
         for i in range(len(ans)):
             ans[i]["score"] = str(float(response[i][1]))
+
 
         return make_response(ans, 200)
     except Exception as e:

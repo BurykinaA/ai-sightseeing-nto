@@ -53,9 +53,10 @@ def get_object_info_ml(object_id):
     """
     db = Sqlite3Connection()
 
-    row = db.get(query)
+    result = db.get(query)
 
-    formatted_result = {
+    formatted_result = [
+        {
             "id": row[0],
             "name": row[1],
             "description": row[6],
@@ -65,6 +66,8 @@ def get_object_info_ml(object_id):
             "rate": row[5],
             "photo": row[8]
         }
+        for row in result
+    ]
 
     return formatted_result[0]
 
