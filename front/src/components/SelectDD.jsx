@@ -60,7 +60,7 @@ function SelectDD({absolute, value, name, handleFilterChangeNew, type,filter, op
           
          
           <div className=' w-max'>
-          {value.filter(item => !selected.some(selectedItem => selectedItem.id == item.id)).length>0?
+          {value&&value.filter(item => !selected.some(selectedItem => selectedItem.id == item.id)).length>0?
             (open? 
               <svg onClick={()=>setOpen(!open)} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M17.7046 13.2805C18.0985 13.6739 18.0985 14.3116 17.7046 14.705C17.3108 15.0983 16.6723 15.0983 16.2785 14.705L11.2869 9.71945C10.8931 9.3261 10.8931 8.68836 11.2869 8.29501C11.6807 7.90166 12.3193 7.90166 12.7131 8.29501L17.7046 13.2805Z" fill="#1D5DEB"/>

@@ -87,23 +87,23 @@ function PhotoSearch({objID, disabled}) {
     "owner": {
         "values": [
             {
-                "id": "Владимир",
+                "id": "vlad",
                 "value": "Владимир",
                 "coordinates": [56.129042, 40.407215],
             },
             {
-                "id": "Ярославль",
+                "id": "yar",
                 "value": "Ярославль",
                 "coordinates": [57.626074, 39.884470]
 
             },
             {
-                "id":  "Нижний Новгород",
+                "id":  "nn",
                 "value": "Нижний Новгород",
                 "coordinates": [56.326887, 44.005986]
             },
             {
-                "id": "Екатеринбург",
+                "id": "ekb",
                 "value": "Екатеринбург",
                 "coordinates": [56.838011, 60.597465]
             },
