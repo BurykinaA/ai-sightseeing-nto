@@ -1,4 +1,5 @@
 import torch.nn.functional as F
+import base64
 import ruclip
 import torch
 from PIL import Image
@@ -97,7 +98,7 @@ def get_top_n_objects(df, indices_sorted, cosine_sim, top_n=5):
 
 
 def get_top_n_on_request(request, city, df=df, top_n=7):
-    text_latents_name, image_latents = city_model["city"]
+    text_latents_name, image_latents = city_model[city]
 
     text_latents_name = text_latents_name.cpu()
     image_latents = image_latents.cpu()
@@ -131,3 +132,35 @@ def get_top_n_on_request(request, city, df=df, top_n=7):
     )
 
     return top_data
+
+
+def get_image_request_embedding(request):
+    request = [request]
+    with torch.no_grad():
+        text_latents = predictor.get_image_latents(request)
+    
+    return F.normalize(text_latents, p=2, dim=-1)
+
+
+def get_top_n_on_image_request(request, city, df=df, top_n=7):
+    text_latents_name, image_latents = city_model[city]
+
+    request = Image.open(BytesIO(base64.b64decode(request))).convert('RGB')
+    image_latents = image_latents.cpu()
+    
+    text_latents = get_image_request_embedding(request)
+    text_latents = text_latents.cpu()
+    
+    # cosine sim
+    image_cosine_sim = get_cosine_similarity(text_latents, image_latents)
+
+    # sorting indices
+    image_sorted_indices = torch.argsort(image_cosine_sim, descending=True)
+
+    # filtering unique places
+    final_sorted_indices = filter_unique_places(image_sorted_indices, df)
+    
+    top_data = get_top_n_objects(df, final_sorted_indices, image_cosine_sim, top_n)
+    
+    return top_data
+

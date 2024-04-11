@@ -178,7 +178,7 @@ if __name__ == "__main__":
     db_connection = Sqlite3Connection(
         r"D:\ai-sightseeing-nto\backend\app\database\sights.db"
     )
-    #db_connection.insert_obj_csv("final_db.csv")
+    # db_connection.insert_obj_csv("final_db.csv")
     # # db_connection.insert_kind_csv('kind_db.csv')
     # db_connection.insert_photo_csv('photo_db.csv')
     # db_connection.insert_obj_photo_csv('obj_photo_db.csv')

@@ -100,8 +100,8 @@ def get_lables(img, city):
     top_k_labels = [city_decode[city][idx.item()] for idx in top_k_indices[0]]
 
     results = [
-        {"label": label, "score": score}
-        for label, score in zip(top_k_labels, top_k_values)
+        {"label": label, "score": str(float(score))}
+        for label, score in zip(top_k_labels, list(top_k_values[0].detach().numpy()))
     ]
 
     return results
