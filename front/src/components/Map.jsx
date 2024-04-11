@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import '../App.css'
 import { Link } from 'react-router-dom'
-import { YMaps, Map, Placemark, GeolocationControl, Clusterer, FullscreenControl } from '@pbe/react-yandex-maps';
+import { YMaps, Map, Placemark, GeolocationControl, Clusterer, FullscreenControl, Polyline } from '@pbe/react-yandex-maps';
 import { URL } from '../const';
 import axios from 'axios';
 
-function CustomMap({all, filter, city, obj}) {
+function CustomMap({all, filter, city, obj, points}) {
 
   const [zoom, setZoom] = useState(8)
   const [center, setCenter] = useState([55.75, 37.57]); // Изначальный центр карты
@@ -27,7 +27,7 @@ function CustomMap({all, filter, city, obj}) {
 };
 const [data, setData]= useState([])
 useEffect(()=>{
-  axios.get(URL+'api/object_coordinates', '')
+  !points&&axios.get(URL+'api/object_coordinates', '')
   .then(response=>{
     setData(response.data)
     
@@ -48,7 +48,20 @@ useEffect(() => {
 useEffect(() => {
   city&&(setCenter(city),setZoom(15))
 }, [city]);
+const [line, setLine]= useState()
+useEffect(()=>{
+  
 
+  points&&axios.get(`https://api.geoapify.com/v1/routing?waypoints=55.6549932,37.6488095|55.7505412,37.6174782&mode=walk&apiKey=b32c2cf7efe34eb0935c82d17d305172` , '')
+  .then(response=>{
+    setLine(response.data.features[0].geometry.coordinates[0])
+    console.log(response.data.features[0].geometry.coordinates[0],points.map(pair => pair.join(',')).join('|'))
+  } ) 
+  .catch(function (error) {
+  });
+  
+
+},[points])
 
   return (
     
@@ -60,6 +73,9 @@ useEffect(() => {
       >
         <FullscreenControl />
         <GeolocationControl options={{ float: "left" }} />
+        <Polyline
+            geometry={line&&line.map(point => [point[1], point[0]])}/>
+            
         <Clusterer
           options={{
             preset: "islands#invertedVioletClusterIcons",
@@ -75,7 +91,17 @@ useEffect(() => {
               }}
             />
           )}
+       
           {(city)&&obj.map(item=>
+            <Placemark
+              modules={["geoObject.addon.balloon"]}
+              geometry={item.coordinates}
+              properties={{
+                balloonContentBody: `<a target='_blank' href='/object/${item.id}'>${item.name}</a>`
+              }}
+            />
+          )}
+          {points.map(item=>
             <Placemark
               modules={["geoObject.addon.balloon"]}
               geometry={item.coordinates}
