@@ -110,7 +110,7 @@ function Home() {
 
 
          {obj[0]&&obj[0].score&& <BarChart
-            xAxis={[{ scaleType: 'band', data: obj.map(item => item.label)|| obj.map(item => item.name) }]}
+            xAxis={[{ scaleType: 'band', data: obj.map(item => item.label)?obj.map(item => item.label): obj.map(item => item.name) }]}
             series={[{ data: obj.map(item => item.score)}]}
             width={400}
             height={300}
