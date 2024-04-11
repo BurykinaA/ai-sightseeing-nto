@@ -12,6 +12,8 @@ import Filter from '../components/Filter';
 import { URL } from '../const';
 import { ObjContext } from '../context';
 
+import { BarChart } from '@mui/x-charts/BarChart';
+
 // import AppRouted from './router/AppRouted'
 
 function Home() {
@@ -100,16 +102,22 @@ function Home() {
         
       </div>
 
-      <div className='relative w-[400px] min-w-[400px] text-left '>
-        <div className='fixed w-max flex flex-col gap-4'>
+      <div className='relative w-[400px] min-w-[400px] text-left  '>
+        <div className='fixed w-max flex flex-col gap-4 pr-2'>
           <CustomMap all={true} filter={filter}/>
           <Filter filter={filter} setFilter={setFilter} handleFilterChangeNew={handleFilterChangeNew} getData={getData}/>
         
 
 
-
-
+         {obj[0]&&obj[0].score&& <BarChart
+            xAxis={[{ scaleType: 'band', data: obj.map(item => item.label) }]}
+            series={[{ data: obj.map(item => item.score)}]}
+            width={400}
+            height={300}
+          />
+}
         </div>
+       
       </div>
       
         

@@ -13,11 +13,11 @@ function Card({item}) {
        <div className='h-full flex flex-col items-start gap-2'>
         <p className='text-xl text-left font-semibold'>{item.name}</p>
         <p className=' text-left'>{item.description}</p>
-        <p className='text-3xl'>{item.label}</p>
-        <p className='text-3xl'>{item.score}</p>
+        {item.label&&<p className='text-3xl mb-2'>Категория :{item.label}</p>}
+        {item.score&&<p className='text-3xl'>Score: {item.score}</p>}
        
         <div className='flex items-center gap-2'>
-        <b className='font-semibold'> Важность достопримечательности: </b><Rate item={item.rate}/>
+        {item.rate&&<><b className='font-semibold'> Важность достопримечательности: </b><Rate item={item.rate}/></>}
         </div> 
         <Link to={'/object/'+item.id} className='text-black no-underline mt-auto ms-auto'>
         <button className='blueButtonInherit'>Перейти</button>
