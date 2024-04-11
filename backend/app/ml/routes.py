@@ -10,7 +10,10 @@ from flask_cors import cross_origin
 # import cv2
 
 from app.queries.queries import get_object_info
-from app.models.text2img.model_txt2lmg import get_top_n_on_request, get_top_n_on_image_request
+from app.models.text2img.model_txt2lmg import (
+    get_top_n_on_request,
+    get_top_n_on_image_request,
+)
 from app.models.img2label.model_i2l import get_lables
 
 
@@ -40,7 +43,7 @@ def get_pict_api():
         data = request.json["pictures"][0]["file"]
         city = request.json["city"]["id"]
         response = get_top_n_on_image_request(data, city)
-        
+
         ans = [get_object_info(i[0]) for i in response]
 
         for i in range(len(ans)):

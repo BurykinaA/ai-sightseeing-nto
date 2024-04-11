@@ -8,10 +8,13 @@ import numpy as np
 import pandas as pd
 import joblib
 import os
-os.environ['CURL_CA_BUNDLE'] = ''
+
+os.environ["CURL_CA_BUNDLE"] = ""
 
 
-model, processor = ruclip.load("ruclip-vit-base-patch32-384", device="cpu", cache_dir="app/cache_ruclip")
+model, processor = ruclip.load(
+    "ruclip-vit-base-patch32-384", device="cpu", cache_dir="app/cache_ruclip"
+)
 templates = ["{}", "это {}", "на фото {}"]
 predictor = ruclip.Predictor(model, processor, "cpu", bs=8, templates=templates)
 
@@ -138,19 +141,19 @@ def get_image_request_embedding(request):
     request = [request]
     with torch.no_grad():
         text_latents = predictor.get_image_latents(request)
-    
+
     return F.normalize(text_latents, p=2, dim=-1)
 
 
 def get_top_n_on_image_request(request, city, df=df, top_n=7):
     text_latents_name, image_latents = city_model[city]
 
-    request = Image.open(BytesIO(base64.b64decode(request))).convert('RGB')
+    request = Image.open(BytesIO(base64.b64decode(request))).convert("RGB")
     image_latents = image_latents.cpu()
-    
+
     text_latents = get_image_request_embedding(request)
     text_latents = text_latents.cpu()
-    
+
     # cosine sim
     image_cosine_sim = get_cosine_similarity(text_latents, image_latents)
 
@@ -159,8 +162,7 @@ def get_top_n_on_image_request(request, city, df=df, top_n=7):
 
     # filtering unique places
     final_sorted_indices = filter_unique_places(image_sorted_indices, df)
-    
-    top_data = get_top_n_objects(df, final_sorted_indices, image_cosine_sim, top_n)
-    
-    return top_data
 
+    top_data = get_top_n_objects(df, final_sorted_indices, image_cosine_sim, top_n)
+
+    return top_data
