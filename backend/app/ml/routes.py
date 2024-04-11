@@ -10,15 +10,22 @@ from flask_cors import cross_origin
 # import cv2
 
 from app.queries.queries import get_object_info
+from app.models.text2img.model_txt2lmg import get_top_n_on_request
+from app.models.img2label import get_lables
 
 
 @cross_origin()
 @object.post("/api/name_research")
 def get_text_api():
     try:
-        data = request.json["text"]
-        response = ML_POLINA(data)
-        response = get_object_info(response)
+        text = request.json["text"]
+        city = request.json["city"]
+        response = get_top_n_on_request(text, city)
+        ans = [get_object_info(i[0]) for i in response]
+
+        for i in range(len(ans)):
+            ans[i]["score"] = response[i][1]
+
         return make_response(response, 200)
     except Exception as e:
         print(e)
@@ -44,8 +51,8 @@ def get_text_api():
 def get_text_api():
     try:
         data = request.json["base64"]
-        response = ML_KOSTA(data)
-        response = get_object_info(response)
+        city = request.json["city"]
+        response = get_lables(data, city)
         return make_response(response, 200)
     except Exception as e:
         print(e)

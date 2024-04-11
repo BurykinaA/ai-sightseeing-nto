@@ -119,12 +119,13 @@ class Sqlite3Connection:
 
         with open(csv_path, mode="r", encoding="utf-8") as file:
             dr = csv.DictReader(file)  # assuming no header
-            to_db = [(i["base64"], i["id"], i['local_id']) for i in dr]
+            to_db = [(i["base64"], i["id"], i["local_id"]) for i in dr]
 
         try:
             cur = self.conn.cursor()
             cur.executemany(
-                f"INSERT INTO {table} (base64, id_obj, local_id) VALUES (?, ?, ?);", to_db
+                f"INSERT INTO {table} (base64, id_obj, local_id) VALUES (?, ?, ?);",
+                to_db,
             )
             self.conn.commit()
             response = "Done - Rows affected: " + str(cur.rowcount)
@@ -181,4 +182,4 @@ if __name__ == "__main__":
     # # db_connection.insert_kind_csv('kind_db.csv')
     # db_connection.insert_photo_csv('photo_db.csv')
     # db_connection.insert_obj_photo_csv('obj_photo_db.csv')
-    db_connection.insert_photo_obj_csv('photo_obj_db.csv')
+    db_connection.insert_photo_obj_csv("photo_obj_db.csv")
