@@ -48,4 +48,35 @@ This project encompasses the development of an innovative sightseeing informatio
 - **Machine Learning Models**:
   - **CLIP**: Employed for both description-based and photograph-based searches, CLIP's ability to understand and match embeddings from text and images is central to these features.
   - **MobileNet**: This model is fine-tuned to classify images into attraction categories, enhancing the service's capability to process and understand user-uploaded photos.
----
+----
+
+
+### Step 1: Clone the Repository
+If you do not already have a local copy of the repository, clone it from the Git repository:
+
+```bash
+git clone https://github.com/BurykinaA/ai-sightseeing-nto.git
+cd ai-sightseeing-nto
+```
+
+### Step 2: Launch
+
+In the main folder:
+1) `python -m venv venv`
+2) For Command Prompt: `venv\Scripts\activate.bat`  
+   For Bash: `source venv/bin/activate`
+3) `pip install -r requirements.txt`
+
+To start the backend:  
+1) `cd backend`
+2) `flask run`
+
+To start the frontend:
+1) `cd frontend`
+2) `npm i`
+3) `npm run dev`
+
+### Step 3: Verify the Application is Running
+The application should now be accessible and ready for use at:
+
+Linux and Windows: http://localhost:5173
