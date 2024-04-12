@@ -1,6 +1,19 @@
 # ai-sightseeing-nto
 -----
 [api]()
+
+
+<p float="left">
+  <img src="https://github.com/BurykinaA/ai-sightseeing-nto/assets/92402616/794d4e3d-6c8c-4958-a1a6-aa3bde4a5761" width="550">
+  <img src="https://github.com/BurykinaA/ai-sightseeing-nto/assets/92402616/4a5071eb-e9b1-4b12-8064-e0a48fd9c150" width="550">
+</p>
+
+**MRR** for text search: 0.58
+
+**MRR** for image search: 0.59
+
+**MAP** for categories: 0.82
+
 -----
 
 ### Project Documentation: Intelligent Sightseeing Service
